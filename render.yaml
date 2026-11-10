@@ -1,0 +1,57 @@
+# ==========================================================================
+#   Render Blueprint - G-TEC website + AI server (100% free tier)
+#
+#   Creates two free web services from this repository:
+#     gtec-website  Node/Express site (public/js/buddy.js talks to /api/*)
+#     gtec-ai       Flask intent classifier (lite TF-IDF backend)
+#
+#   Deploy:  Render Dashboard -> New -> Blueprint -> pick this repo -> Apply
+#   Docs  :  deploy/DEPLOY_FREE.md
+# ==========================================================================
+services:
+  # ------------------------------------------------------------------
+  # AI server (Python). Uses the ~1 MB joblib model from the Hub, so it
+  # fits comfortably in the 512 MB free instance.
+  # ------------------------------------------------------------------
+  - type: web
+    name: gtec-ai
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: pip install --upgrade pip && pip install -r deploy/render/requirements-ai.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 4 --timeout 120 --access-logfile - ai_server:app
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.5
+      - key: MODEL_BACKEND
+        value: lite
+      - key: MODEL_ID
+        value: GtecBuddy/gtec-intent-model
+
+  # ------------------------------------------------------------------
+  # Website (Node/Express). Calls the AI service through the server-side
+  # proxy, so the browser never needs to know the AI URL.
+  # ------------------------------------------------------------------
+  - type: web
+    name: gtec-website
+    runtime: node
+    plan: free
+    region: singapore
+    buildCommand: npm install
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 20.18.1
+      - key: AI_BASE_URL
+        fromService:
+          type: web
+          name: gtec-ai
+          property: host
+      # Set these in the Render dashboard after the first deploy
+      - key: ADMIN_USER
+        sync: false
+      - key: ADMIN_PASS
+        sync: false

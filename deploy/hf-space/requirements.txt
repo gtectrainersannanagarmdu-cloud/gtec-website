@@ -1,0 +1,14 @@
+# Dependencies for the Hugging Face Space (AI server only).
+# The website's requirements.txt is NOT used inside the Space.
+
+flask==3.1.1
+flask-cors==5.0.1
+gunicorn==23.0.0
+
+# CPU-only PyTorch keeps the image ~1.5 GB instead of ~3 GB
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.5.1+cpu
+
+transformers>=4.47.0
+huggingface_hub>=0.26.0
+safetensors>=0.4.3

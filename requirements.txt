@@ -1,0 +1,20 @@
+﻿# G-TEC AI - Python dependencies
+# Install with: pip install -r requirements.txt
+# NOTE: this file is for local development. The Hugging Face Space uses
+#       deploy/hf-space/requirements.txt instead (CPU-only torch + gunicorn).
+
+# Web framework
+flask==3.1.1
+flask-cors==5.0.1
+
+# ML / NLP
+torch>=2.2.0
+transformers>=4.47.0
+huggingface_hub>=0.26.0
+safetensors>=0.4.3
+datasets>=2.21.0
+
+# Training utilities
+scikit-learn>=1.4.0
+pandas>=2.2.0
+accelerate>=0.30.0

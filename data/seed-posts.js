@@ -1,0 +1,52 @@
+/* =============================================
+   G-TEC BLOG — Seed posts
+   Used only the first time data/blogs.json is created.
+   After that, posts live in data/blogs.json on the server.
+   ============================================= */
+
+export const SEED_POSTS = [
+  {
+    id: 'seed1',
+    title: 'Top 5 In-Demand IT Skills for 2026',
+    category: 'Technology',
+    author: 'G-TEC Admin',
+    date: '2026-10-01',
+    excerpt: 'The technology landscape is evolving rapidly. Discover the most sought-after skills employers are looking for in 2026 and how G-TEC prepares you for them.',
+    content: `The technology landscape is evolving rapidly. In 2026, the most in-demand IT skills include:\n\n1. Artificial Intelligence & Machine Learning\nAI is transforming every industry. Understanding ML algorithms, neural networks, and tools like TensorFlow are highly valued.\n\n2. Cloud Computing\nAWS, Azure, and Google Cloud certifications are among the most-sought credentials globally.\n\n3. Cybersecurity\nWith rising data breaches, certified ethical hackers and security analysts are critical.\n\n4. Full-Stack Web Development\nProficiency in React, Node.js, and databases continues to command premium salaries.\n\n5. Data Analytics\nBusinesses rely on data-driven decisions. SQL, Power BI, and Python for analytics are foundational.\n\nAt G-TEC Anna Nagar, Madurai, we offer all these courses with hands-on training and internationally recognized certifications. Enroll today and future-proof your career!`,
+    icon: '💻',
+    image: ''
+  },
+  {
+    id: 'seed2',
+    title: 'How Tally ERP 9 & GST Certification Can Boost Your Career',
+    category: 'Courses',
+    author: 'G-TEC Admin',
+    date: '2026-09-20',
+    excerpt: 'Tally ERP 9 with GST is one of the most used accounting software in India. Learn how certification can open doors to top accounting and finance roles.',
+    content: `Tally ERP 9 with GST is one of the most popular accounting software solutions used by businesses across India. Here's why getting certified matters:\n\n✅ Industry Adoption\nOver 2 million businesses in India use Tally ERP. Certification makes you immediately employable.\n\n✅ GST Compliance\nSince the implementation of GST, accountants who understand both Tally and GST are in extremely high demand.\n\n✅ Salary Advantage\nCertified Tally professionals earn 20–40% more than non-certified counterparts in similar roles.\n\n✅ Freelance Opportunities\nMany small businesses outsource their accounting. A Tally certificate opens the door to lucrative freelance gigs.\n\nG-TEC offers a comprehensive Tally ERP 9 + GST course with real-world case studies and placement support. Join our next batch!`,
+    icon: '📊',
+    image: ''
+  },
+  {
+    id: 'seed3',
+    title: 'G-TEC Student Placement Success Stories 2026',
+    category: 'Success Stories',
+    author: 'G-TEC Admin',
+    date: '2026-09-10',
+    excerpt: 'Our students are landing roles at top companies. Read about the inspiring journeys of G-TEC graduates who transformed their lives through education.',
+    content: `We're proud to share that G-TEC Anna Nagar students continue to achieve remarkable career milestones in 2026!\n\n🌟 Priya S. — Web Developer at TechCorp Chennai\nAfter completing our Full-Stack Web Development course, Priya secured a role at TechCorp within 2 months of graduation with a package of ₹4.8 LPA.\n\n🌟 Rahul M. — Graphic Designer at Ad Agency Madurai\nRahul's Photoshop and CorelDRAW skills from G-TEC helped him build a strong portfolio that impressed his employer on day one.\n\n🌟 Anitha K. — Accountant at CA Firm Madurai\nAnitha's Tally + GST certification from G-TEC made her the top candidate out of 50+ applicants for a sought-after accounting position.\n\n🌟 Vijay T. — Network Engineer at IT Firm Coimbatore\nVijay's Hardware & Networking certification opened doors at multiple companies. He joined his dream company within 6 weeks.\n\nThese are just a few of hundreds of success stories. Your story could be next. Call us at 9025046473 to learn how G-TEC can transform your career!`,
+    icon: '🏆',
+    image: ''
+  },
+  {
+    id: 'seed4',
+    title: 'Why Choose G-TEC for Your IT Education?',
+    category: 'About G-TEC',
+    author: 'G-TEC Admin',
+    date: '2026-08-28',
+    excerpt: 'With 25 years of excellence, 800+ centres and 3.2 million students trained — here is why G-TEC remains the most trusted name in IT education.',
+    content: `G-TEC Computer Education has been at the forefront of IT training since its founding 25 years ago. Here's what makes us stand apart:\n\n🏫 ISO Certified Institution\nWe are internationally certified, ensuring that our curriculum meets global standards.\n\n🌐 Global Network\nWith 800+ centres across 23 countries, a G-TEC certificate is recognized worldwide.\n\n👨‍🏫 Expert Faculty\nOur instructors bring real industry experience to the classroom, not just theoretical knowledge.\n\n💼 Placement Support\nWe actively connect our graduates with partner companies, offering mock interviews, resume writing support, and job placement assistance.\n\n📜 Recognized Certifications\nOur certificates are recognized by industries across India and internationally — giving our graduates a competitive edge.\n\n⏰ Flexible Schedules\nWe understand that our students have busy lives. We offer morning, afternoon, and evening batches.\n\nVisit our Anna Nagar, Madurai centre at Idhayam Complex, 2nd Floor, 2nd East Main Road — or call 9025046473 to learn more!`,
+    icon: '🎓',
+    image: ''
+  }
+];

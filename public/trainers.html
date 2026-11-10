@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Trainers | G-TEC Computer Education</title>
+  <meta name="description"
+    content="Meet the expert trainers at G-TEC Computer Education, Anna Nagar, Madurai — passionate professionals dedicated to shaping your IT career.">
+  <meta name="keywords"
+    content="G-TEC trainers, G-TEC faculty, IT trainers Madurai, Anna Nagar computer education staff">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .trainers-intro {
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 56px;
+    }
+
+    .trainers-intro .section-label {
+      margin-bottom: 12px;
+    }
+
+    .trainers-intro .section-title {
+      margin-bottom: 16px;
+    }
+
+    .trainers-intro p {
+      color: var(--text-light);
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+
+    .trainers-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+
+    .trainer-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      transition: transform 0.35s cubic-bezier(.34, 1.56, .64, 1), box-shadow 0.35s ease;
+      position: relative;
+    }
+
+    .trainer-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 48px rgba(0, 86, 179, 0.18);
+    }
+
+    .trainer-img-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 100%;
+      overflow: hidden;
+      background: linear-gradient(135deg, #e8f0fe, #c7d8fb);
+    }
+
+    .trainer-img-wrap img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform 0.5s ease;
+    }
+
+    .trainer-card:hover .trainer-img-wrap img {
+      transform: scale(1.07);
+    }
+
+    .trainer-img-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(0, 51, 120, 0.72) 100%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .trainer-card:hover .trainer-img-overlay {
+      opacity: 1;
+    }
+
+    .trainer-badge {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 5px 14px;
+      border-radius: 50px;
+      white-space: nowrap;
+      opacity: 0;
+      transition: all 0.35s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    .trainer-card:hover .trainer-badge {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .trainer-info {
+      padding: 20px 22px 22px;
+      text-align: center;
+      position: relative;
+    }
+
+    .trainer-info::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 48px;
+      height: 3px;
+      background: var(--gradient-primary);
+      border-radius: 2px;
+    }
+
+    .trainer-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin: 0 0 6px;
+    }
+
+    .trainer-role {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin: 0;
+    }
+
+    .trainer-social {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .trainer-social a {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg-surface-alt);
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      text-decoration: none;
+      transition: background 0.25s, color 0.25s, transform 0.25s;
+    }
+
+    .trainer-social a:hover {
+      background: var(--gradient-primary);
+      color: #fff;
+      transform: scale(1.15);
+    }
+
+    .trainers-cta {
+      background: var(--gradient-primary);
+      border-radius: var(--radius-lg);
+      padding: 56px 40px;
+      text-align: center;
+      color: #fff;
+      margin-top: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trainers-cta::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .trainers-cta::after {
+      content: '';
+      position: absolute;
+      bottom: -80px;
+      left: -40px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .trainers-cta h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .trainers-cta p {
+      font-size: 1rem;
+      opacity: 0.88;
+      max-width: 520px;
+      margin: 0 auto 28px;
+      line-height: 1.7;
+    }
+
+    .trainers-cta .cta-btns {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* CTA Banner buttons — always visible on the gradient bg */
+    .trainers-cta .btn-primary-inv {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #ffffff;
+      color: #003399;
+      font-weight: 700;
+      padding: 14px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: background 0.25s, color 0.25s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+    }
+
+    .trainers-cta .btn-primary-inv:hover {
+      background: #e8f0fe;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+    }
+
+    .trainers-cta .btn-outline-inv {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      color: #ffffff;
+      font-weight: 600;
+      padding: 14px 32px;
+      border-radius: 50px;
+      border: 2px solid rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: background 0.25s, border-color 0.25s, transform 0.2s;
+    }
+
+    .trainers-cta .btn-outline-inv:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Dark mode — make the white "Explore Courses" button use accent instead */
+    [data-theme="dark"] .trainers-cta .btn-primary-inv {
+      background: #4f9fff;
+      color: #fff;
+    }
+
+    [data-theme="dark"] .trainers-cta .btn-primary-inv:hover {
+      background: #6db3ff;
+    }
+
+    [data-theme="dark"] .trainer-card {
+      background: var(--bg-surface);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    [data-theme="dark"] .trainer-card:hover {
+      box-shadow: 0 20px 48px rgba(0, 120, 255, 0.22);
+    }
+
+    [data-theme="dark"] .trainer-name {
+      color: var(--white);
+    }
+
+    [data-theme="dark"] .trainer-img-wrap {
+      background: linear-gradient(135deg, #1a2340, #0f172a);
+    }
+
+    [data-theme="dark"] .trainer-social a {
+      background: var(--bg-surface-alt);
+    }
+
+    @media (max-width: 1024px) {
+      .trainers-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .trainers-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .trainers-cta h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .trainers-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+      }
+    }
+  </style>
+  <script>
+    (function () {
+      var t = localStorage.getItem('gtec-theme');
+      var d = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', (t === 'dark' || (!t && d)) ? 'dark' : 'light');
+    })();
+  </script>
+</head>
+
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-left">
+        <span><i class="fa fa-phone"></i> 9025046473</span>
+        <span><i class="fa fa-envelope"></i> annanagarmdu.tn@gteceducation.com</span>
+      </div>
+      <div class="top-bar-right">
+        <div class="social-links">
+          <a href="https://www.facebook.com/share/1D6aQkkAHu/" target="_blank" aria-label="Facebook"><i
+              class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/gtecmaduraiannanagar?igsi=MTdvdXB1aGYwand3bw==" target="_blank"
+            aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/company/g-tec-groupofinstitutions" target="_blank" aria-label="LinkedIn"><i
+              class="fab fa-linkedin-in"></i></a>
+          <a href="https://youtube.com/@gtecmaduraiannanagar?si=BLtbZpYww7VU9aK9" target="_blank"
+            aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo" aria-label="G-TEC Home">
+        <img src="assets/images/gtec rounded logo.png" alt="G-TEC Logo" class="nav-logo-img">
+        <div class="nav-logo-text">
+          <strong>G-TEC</strong>
+          <span>Education Anna Nagar Madurai</span>
+        </div>
+      </a>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="courses.html" class="nav-link">Courses</a></li>
+        <li><a href="recommend.html" class="nav-link">Find My Course</a></li>
+        <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+        <li><a href="trainers.html" class="nav-link active">Our Trainers</a></li>
+        <li><a href="contact.html" class="nav-link nav-cta">Contact Us</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch between light and dark mode"
+          title="Switch to Dark Mode">
+          <span class="theme-toggle-track">
+            <span class="theme-toggle-icons">
+              <i class="fas fa-sun theme-sun-icon" aria-hidden="true"></i>
+              <i class="fas fa-moon theme-moon-icon" aria-hidden="true"></i>
+            </span>
+            <span class="theme-toggle-thumb"></span>
+          </span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="fa fa-chevron-right"></i>
+      <span>Our Trainers</span>
+    </div>
+    <h1>Meet Our Expert Trainers</h1>
+    <p>Passionate professionals dedicated to shaping your IT career with real-world expertise and personalized guidance.
+    </p>
+  </div>
+
+  <!-- Trainers Section -->
+  <section class="section-pad" style="background: var(--bg-surface);">
+    <div class="container">
+
+      <div class="trainers-intro reveal">
+        <span class="section-label">Our Faculty</span>
+        <h2 class="section-title">The People Behind <span>Your Success</span></h2>
+        <p>Our trainers bring industry experience, passion for teaching, and a commitment to your growth — guiding you
+          every step of the way.</p>
+      </div>
+
+      <div class="trainers-grid">
+
+        <!-- Trainer 1 -->
+        <div class="trainer-card reveal">
+          <div class="trainer-img-wrap">
+            <img src="assets/images/trainer-1.jpg" alt="P C Vasantha Kumar" loading="lazy">
+            <div class="trainer-img-overlay"></div>
+            <span class="trainer-badge">Centre Director<br>SAP Trainer</span>
+          </div>
+          <div class="trainer-info">
+            <h3 class="trainer-name">P C Vasantha Kumar</h3>
+            <p class="trainer-role">Centre Director &<br>SAP Trainer</p>
+            <div class="trainer-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trainer 2 -->
+        <div class="trainer-card reveal reveal-delay-1">
+          <div class="trainer-img-wrap">
+            <img src="assets/images/trainer-2.jpg" alt="Priyadharshini" loading="lazy">
+            <div class="trainer-img-overlay"></div>
+            <span class="trainer-badge">BDE & Multimedia Trainer</span>
+          </div>
+          <div class="trainer-info">
+            <h3 class="trainer-name">Priyadharshini</h3>
+            <p class="trainer-role">Buisness Development Executive &<br>Multimedia Trainer</p>
+            <div class="trainer-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trainer 3 -->
+        <div class="trainer-card reveal reveal-delay-2">
+          <div class="trainer-img-wrap">
+            <img src="assets/images/trainer-4.jpg" alt="Monisha" loading="lazy">
+            <div class="trainer-img-overlay"></div>
+            <span class="trainer-badge">Academic Counsellor<br>Robotics Trainer</span>
+          </div>
+          <div class="trainer-info">
+            <h3 class="trainer-name">Monisha</h3>
+            <p class="trainer-role">Academic Counsellor &<br>Robotics Trainer</p>
+            <div class="trainer-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trainer 4 -->
+        <div class="trainer-card reveal reveal-delay-3">
+          <div class="trainer-img-wrap">
+            <img src="assets/images/trainer-4.jpg" alt="Nandhini" loading="lazy">
+            <div class="trainer-img-overlay"></div>
+            <span class="trainer-badge">Accounting Trainer</span>
+          </div>
+          <div class="trainer-info">
+            <h3 class="trainer-name">Nandhini</h3>
+            <p class="trainer-role">Accounting Trainer</p>
+            <div class="trainer-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trainer 5 -->
+        <div class="trainer-card reveal">
+          <div class="trainer-img-wrap">
+            <img src="assets/images/trainer-2.jpg" alt="Siva Sankari" loading="lazy">
+            <div class="trainer-img-overlay"></div>
+            <span class="trainer-badge">Software Trainer</span>
+          </div>
+          <div class="trainer-info">
+            <h3 class="trainer-name">Sivasankari</h3>
+            <p class="trainer-role">Software Trainer</p>
+            <div class="trainer-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trainer 6 -->
+        <div class="trainer-card reveal reveal-delay-1">
+          <div class="trainer-img-wrap">
+            <img src="assets/images/trainer-6.jpg" alt="S.S.Thowfic Ahamed" loading="lazy">
+            <div class="trainer-img-overlay"></div>
+            <span class="trainer-badge">Software Trainer</span>
+          </div>
+          <div class="trainer-info">
+            <h3 class="trainer-name">S.S.Thowfic Ahamed</h3>
+            <p class="trainer-role">Software Trainer</p>
+            <div class="trainer-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trainer 7 -->
+        <div class="trainer-card reveal reveal-delay-2">
+          <div class="trainer-img-wrap">
+            <img src="assets/images/trainer-7.jpg" alt="Ganesh Kumar" loading="lazy">
+            <div class="trainer-img-overlay"></div>
+            <span class="trainer-badge">Accounting Trainer</span>
+          </div>
+          <div class="trainer-info">
+            <h3 class="trainer-name">Ganesh Kumar</h3>
+            <p class="trainer-role">Accounting Trainer</p>
+            <div class="trainer-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trainer 8 -->
+        <div class="trainer-card reveal reveal-delay-3">
+          <div class="trainer-img-wrap">
+            <img src="assets/images/trainer-8.jpg" alt="Vigneshwaran" loading="lazy">
+            <div class="trainer-img-overlay"></div>
+            <span class="trainer-badge">CAD Trainer</span>
+          </div>
+          <div class="trainer-info">
+            <h3 class="trainer-name">Vigneshwaran</h3>
+            <p class="trainer-role">CAD Trainer</p>
+            <div class="trainer-social">
+              <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+              <a href="#" aria-label="Email"><i class="fa fa-envelope"></i></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CTA Banner -->
+      <div class="trainers-cta reveal">
+        <h2>Learn Directly from the Best</h2>
+        <p>Our trainers are not just educators — they are industry mentors who bring real-world experience into every
+          class.</p>
+        <div class="cta-btns">
+          <a href="courses.html" class="btn-primary-inv">
+            <i class="fa fa-graduation-cap"></i> Explore Courses
+          </a>
+          <a href="contact.html" class="btn-outline-inv">
+            <i class="fa fa-phone"></i> Contact Us
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="assets/images/gtec rounded logo.png" alt="G-TEC Logo" class="footer-logo-img">
+            <div class="footer-logo-text"><strong>G-TEC</strong><span>Education Anna Nagar Madurai</span></div>
+          </div>
+          <p>ISO-certified global institution with 25 years of excellence in IT education, skill development, and
+            vocational training.</p>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/share/1D6aQkkAHu/" target="_blank" aria-label="Facebook"><i
+                class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/gtecmaduraiannanagar?igsi=MTdvdXB1aGYwand3bw==" target="_blank"
+              aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/company/g-tec-groupofinstitutions" target="_blank"
+              aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://youtube.com/@gtecmaduraiannanagar?si=BLtbZpYww7VU9aK9" target="_blank"
+              aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <div class="footer-links">
+            <a href="index.html"><i class="fa fa-chevron-right"></i> Home</a>
+            <a href="about.html"><i class="fa fa-chevron-right"></i> About Us</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Courses</a>
+            <a href="gallery.html"><i class="fa fa-chevron-right"></i> Gallery</a>
+            <a href="trainers.html"><i class="fa fa-chevron-right"></i> Our Trainers</a>
+            <a href="contact.html"><i class="fa fa-chevron-right"></i> Contact Us</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Popular Courses</h4>
+          <div class="footer-links">
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> MS Office &amp; Basics</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Tally ERP &amp; GST</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Graphic Design</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Web Development</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Hardware &amp; Networking</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Digital Marketing</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <div class="footer-contact-item"><i class="fa fa-phone"></i><span>9025046473</span></div>
+          <div class="footer-contact-item"><i class="fa fa-phone"></i><span>9944046563 (Director)</span></div>
+          <div class="footer-contact-item"><i class="fa fa-envelope"></i><span>annanagarmdu.tn@gteceducation.com</span>
+          </div>
+          <div class="footer-contact-item"><i class="fa fa-location-dot"></i><span>Idhayam Complex No.416, 2nd Floor,
+              2nd East Main Road, New LIG Colony, Anna Nagar, Madurai - 625020</span></div>
+          <div class="footer-contact-item"><i class="fa fa-clock"></i><span>Mon-Sat: 9:00 AM - 7:00 PM</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <span>&#169; 2026 <span class="accent-text">G-TEC Computer Education</span>. All Rights Reserved.</span>
+        <span>Designed with <span class="accent-text">&#10084;</span> for Education</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fa fa-arrow-up"></i></button>
+  <script src="js/main.js"></script>
+  <script src="js/buddy.js"></script>
+</body>
+
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>G-TEC AI Test</title>
+</head>
+
+<body>
+
+    <h1>G-TEC AI Test</h1>
+
+    <input type="text" id="message" placeholder="Ask something...">
+
+    <button onclick="askAI()">
+        Ask AI
+    </button>
+
+    <pre id="result"></pre>
+
+    <script>
+
+        async function askAI() {
+            const inputVal = document.getElementById("message").value.trim();
+            const message = inputVal || "I want to learn web development";
+            
+            const response = await fetch(
+                "http://127.0.0.1:5001/predict",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify({
+                        message: message
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            document.getElementById("result").textContent =
+                JSON.stringify(data, null, 2);
+        }
+
+    </script>
+
+</body>
+
+</html>

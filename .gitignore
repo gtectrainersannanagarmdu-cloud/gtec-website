@@ -1,0 +1,29 @@
+# Dependencies & environments
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# IDE & Editor settings
+.vscode/
+*.swp
+*.lnk
+
+# Environment secrets
+.env
+.env.local
+
+# Trained model artefacts — weights are hosted on the Hugging Face Hub
+# (https://huggingface.co/<user>/gtec-intent-model) and downloaded at runtime.
+model/
+*.safetensors
+*.pt
+*.pth
+*.bin
+*.ckpt
+*.h5
+*.onnx
+
+# Space staging folder
+.space-stage/

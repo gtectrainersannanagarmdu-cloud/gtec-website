@@ -1,0 +1,16 @@
+# Dependencies for the AI server on free hosting (Render 512 MB, Cloud Run).
+# Deliberately excludes torch/transformers: the lite backend needs ~120 MB RAM.
+
+flask==3.1.1
+flask-cors==5.0.1
+gunicorn==23.0.0
+
+# Model + inference (must match the scikit-learn version used by
+# train_lite_model.py, otherwise unpickling the .joblib will fail)
+scikit-learn==1.9.1
+joblib>=1.4.0
+numpy>=1.26.0
+scipy>=1.11.0
+
+# Download the .joblib from the Hugging Face Model Hub at startup
+huggingface_hub>=0.26.0

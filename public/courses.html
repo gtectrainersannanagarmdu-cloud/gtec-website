@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Courses | G-TEC Computer Education</title>
+  <meta name="description"
+    content="Explore G-TEC's wide range of IT courses including Software, Hardware & Networking, Graphic Design, Web Development, Digital Marketing, Finance, and CAD.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('gtec-theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+</head>
+
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-left">
+        <span><i class="fa fa-phone"></i> 9025046473</span>
+        <span><i class="fa fa-envelope"></i> annanagarmdu.tn@gteceducation.com</span>
+      </div>
+      <div class="top-bar-right">
+        <div class="social-links">
+          <a href="https://www.facebook.com/share/1D6aQkkAHu/" target="_blank" aria-label="Facebook"><i
+              class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/gtecmaduraiannanagar?igsi=MTdvdXB1aGYwand3bw==" target="_blank"
+            aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/company/g-tec-groupofinstitutions" target="_blank" aria-label="LinkedIn"><i
+              class="fab fa-linkedin-in"></i></a>
+          <a href="https://www.youtube.com/@gtecmaduraiannanagar?si=BLtbZpYww7VU9aK9" target="_blank"
+            aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/images/gtec rounded logo.png" alt="G-TEC Logo" class="nav-logo-img">
+        <div class="nav-logo-text"><strong>G-TEC</strong><span>Education Anna Nagar Madurai</span></div>
+      </a>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-link">About</a></li>
+        <li><a href="courses.html" class="nav-link active">Courses</a></li>
+        <li><a href="recommend.html" class="nav-link">Find My Course</a></li>
+        <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+        <li><a href="blog.html" class="nav-link">Blog</a></li>
+        <li><a href="contact.html" class="nav-link nav-cta">Contact Us</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch between light and dark mode"
+          title="Switch to Dark Mode">
+          <span class="theme-toggle-track">
+            <span class="theme-toggle-icons">
+              <i class="fas fa-sun theme-sun-icon" aria-hidden="true"></i>
+              <i class="fas fa-moon theme-moon-icon" aria-hidden="true"></i>
+            </span>
+            <span class="theme-toggle-thumb"></span>
+          </span>
+        </button>
+        <button class="hamburger" id="hamburger"
+          aria-label="Toggle menu"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="fa fa-chevron-right"></i>
+      <span>Courses</span>
+    </div>
+    <h1>Our Courses</h1>
+    <p>Industry-focused, hands-on training programs with internationally recognized certificates</p>
+  </div>
+
+  <!-- Courses Section -->
+  <section class="courses-section section-pad">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section-label">Browse by Category</span>
+        <h2 class="section-title">Find Your Perfect <span>Course</span></h2>
+        <p class="section-subtitle">Use the filters below to explore courses by category. All courses include hands-on
+          training and a recognized certificate.</p>
+      </div>
+
+      <!-- Category Tabs -->
+      <div class="category-tabs reveal">
+        <button class="cat-tab active" data-filter="all"><i class="fa fa-th-large"></i> All Courses</button>
+        <button class="cat-tab" data-filter="software"><i class="fa fa-laptop-code"></i> Software</button>
+        <button class="cat-tab" data-filter="hardware"><i class="fa fa-server"></i> Hardware & Networking</button>
+        <button class="cat-tab" data-filter="design"><i class="fa fa-palette"></i> Graphic Design</button>
+        <button class="cat-tab" data-filter="web"><i class="fa fa-globe"></i> Web Development</button>
+        <button class="cat-tab" data-filter="programming"><i class="fa fa-code"></i> Programming</button>
+        <button class="cat-tab" data-filter="marketing"><i class="fa fa-bullhorn"></i> Digital Marketing</button>
+        <button class="cat-tab" data-filter="finance"><i class="fa fa-chart-line"></i> Finance & Accounting</button>
+        <button class="cat-tab" data-filter="cad"><i class="fa fa-drafting-compass"></i> CAD</button>
+      </div>
+
+      <!-- Course Cards Grid -->
+      <div class="courses-grid">
+
+        <!-- ---- SOFTWARE ---- -->
+        <div class="course-card" data-category="software">
+          <div class="course-card-img">
+            <img src="assets/images/office.png" alt="MS Office">
+            <span class="course-category-badge">Software</span>
+          </div>
+          <div class="course-card-body">
+            <h3>MS Office & Computer Basics</h3>
+            <p>Master Microsoft Office suite — Word, Excel, PowerPoint, and Outlook. Perfect for beginners and office
+              workers.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 3 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Beginner</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Office Skills</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="software">
+          <div class="course-card-img">
+            <img src="assets/images/course-finance.jpg" alt="Tally ERP">
+            <span class="course-category-badge">Software</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Tally ERP & GST Accounting</h3>
+            <p>Learn Tally Prime, GST filing, inventory management, payroll and complete financial accounting from
+              scratch.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 4 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Beginner</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Accounting</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="finance">
+          <div class="course-card-img">
+            <img src="assets/images/course-sap-fico.jpg" alt="SAP FICO Course">
+            <span class="course-category-badge">Finance</span>
+          </div>
+          <div class="course-card-body">
+            <h3>SAP FICO (Finance & Controlling)</h3>
+            <p>Master SAP's Financial Accounting & Controlling module — General Ledger, Accounts Payable/Receivable,
+              Cost Center Accounting, and financial reporting.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 3 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Intermediate</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---- HARDWARE & NETWORKING ---- -->
+        <div class="course-card" data-category="hardware">
+          <div class="course-card-img">
+            <img src="assets/images/course-hardware.jpg" alt="PC Hardware">
+            <span class="course-category-badge">Hardware & Networking</span>
+          </div>
+          <div class="course-card-body">
+            <h3>PC Hardware & Maintenance</h3>
+            <p>Assemble, troubleshoot and maintain computers. Covers components, BIOS, OS installation, and hardware
+              repair techniques.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 4 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Beginner</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Technical</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="hardware">
+          <div class="course-card-img">
+            <img src="assets/images/cisco.png" alt="Networking">
+            <span class="course-category-badge">Hardware & Networking</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Networking & CCNA Prep</h3>
+            <p>Learn computer networking fundamentals, LAN/WAN setup, routers, switches, and CCNA certification
+              preparation.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 6 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Intermediate</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Networking</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+        <div class="course-card" data-category="hardware">
+          <div class="course-card-img">
+            <img src="assets/images/cctv.png" alt="Hardware Course">
+            <span class="course-category-badge">Diploma in CCTV Installation DCI</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Diploma in CCTV Installation DCI</h3>
+            <p>Learn to install, configure, troubleshoot, and maintain CCTV systems. Covers cameras, DVR/NVR setup,
+              wiring, network configuration, and remote monitoring.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 1 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Beginner</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Technical</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+        <!-- ---- GRAPHIC DESIGN ---- -->
+        <div class="course-card" data-category="design">
+          <div class="course-card-img">
+            <img src="assets/images/course-graphic.jpg" alt="Photoshop">
+            <span class="course-category-badge">Graphic Design</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Adobe Photoshop & Illustrator</h3>
+            <p>Master photo editing, vector design, logo creation, and digital artwork using Adobe Photoshop and
+              Illustrator.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 4 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Beginner</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Design</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="design">
+          <div class="course-card-img">
+            <img src="assets/images/videoediting.png" alt="Video Editing">
+            <span class="course-category-badge">Graphic Design</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Video Editing & Animation</h3>
+            <p>Create professional videos and animations using Adobe Premiere Pro, After Effects. Learn motion graphics
+              and VFX.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 5 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Intermediate</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Multimedia</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---- WEB DEVELOPMENT ---- -->
+        <div class="course-card" data-category="web">
+          <div class="course-card-img">
+            <img src="assets/images/course-web.jpg" alt="Web Development">
+            <span class="course-category-badge">Web Development</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Full Stack Web Development</h3>
+            <p>Build responsive websites using HTML5, CSS3, JavaScript, PHP and MySQL. Learn both front-end and back-end
+              skills.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 6 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Intermediate</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Web</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="web">
+          <div class="course-card-img">
+            <img src="assets/images/ui and ux.png" alt="UI UX Design">
+            <span class="course-category-badge">Graphic Design</span>
+          </div>
+          <div class="course-card-body">
+            <h3>UI/UX Design & Figma</h3>
+            <p>Design beautiful user interfaces and experiences using Figma. Learn wireframing, prototyping, and
+              usability principles.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 4 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Beginner</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Design</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---- PROGRAMMING ---- -->
+        <div class="course-card" data-category="programming">
+          <div class="course-card-img">
+            <img src="assets/images/python.png" alt="Python">
+            <span class="course-category-badge">Programming</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Python Programming</h3>
+            <p>Learn Python from basics to advanced — variables, functions, OOP, file handling, and real-world project
+              development.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 5 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Beginner</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Programming</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+        <div class="course-card" data-category="python">
+          <div class="course-card-img">
+            <img src="assets/images/ccda.jpg" alt="Hardware Course">
+            <span class="course-category-badge">Certificate Course in Data Analytics (CCDA)</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Certificate Course in Data Analytics (CCDA)</h3>
+            <p>Learn to analyze, process, and visualize data using Python. Covers NumPy, Pandas, Matplotlib, SciPy, and
+              Seaborn for data manipulation, statistical analysis, visualization, and insights.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 3 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Intermediate</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+        <div class="course-card" data-category="python">
+          <div class="course-card-img">
+            <img src="assets/images/advpython.jpg" alt="Hardware Course">
+            <span class="course-category-badge">Advanced Python</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Advanced Python</h3>
+            <p>Learn Python fundamentals, programming logic, and problem-solving skills.Covers OOP's, Databases, Python
+              packages like Numpy,Pandas,Scipy and Matplotlib with real-world projects.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 3 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Intermediate</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+        <div class="course-card" data-category="programming">
+          <div class="course-card-img">
+            <img src="assets/images/java.jpg" alt="Java">
+            <span class="course-category-badge">Programming</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Java & Object-Oriented Programming</h3>
+            <p>Master Java programming, OOP principles, data structures, algorithms, and build desktop applications.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 6 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Intermediate</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Programming</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---- DIGITAL MARKETING ---- -->
+        <div class="course-card" data-category="marketing">
+          <div class="course-card-img">
+            <img src="assets/images/course-digital.jpg" alt="Digital Marketing">
+            <span class="course-category-badge">Digital Marketing</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Digital Marketing & SEO</h3>
+            <p>Learn SEO, social media marketing, Google Ads, email marketing, content marketing, and analytics tools.
+            </p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 4 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Beginner</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Marketing</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="marketing">
+          <div class="course-card-img">
+            <img src="assets/images/social.jpg" alt="Social Media">
+            <span class="course-category-badge">Digital Marketing</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Social Media Marketing</h3>
+            <p>Master Instagram, Facebook, YouTube, and LinkedIn marketing. Learn content creation, branding, and paid
+              ads.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 3 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Beginner</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Social Media</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---- FINANCE ---- -->
+        <div class="course-card" data-category="finance">
+          <div class="course-card-img">
+            <img src="assets/images/course-finance.jpg" alt="Finance">
+            <span class="course-category-badge">Finance & Accounting</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Financial Accounting & Tally</h3>
+            <p>Master accounts management, balance sheets, GST returns, payroll, and Tally ERP for finance careers.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 4 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Beginner</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Finance</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="finance">
+          <div class="course-card-img">
+            <img src="assets/images/course-finance.jpg" alt="Excel Finance">
+            <span class="course-category-badge">Finance & Accounting</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Advanced Excel for Finance</h3>
+            <p>Pivot tables, VLOOKUP, financial modeling, dashboards, and data analysis using Microsoft Excel for
+              finance professionals.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 3 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Intermediate</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Excel</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+        <div class="course-card" data-category="python">
+          <div class="course-card-img">
+            <img src="assets/images/softskill.jpg" alt="Hardware Course">
+            <span class="course-category-badge">Soft Skill Development Program</span>
+          </div>
+          <div class="course-card-body">
+            <h3>Soft Skill Development Program</h3>
+            <p>This course aims to enhance learner’s communication skills, personality, and professional etiquette,
+              improving their overall employability. It prepares students to participate confidently in interviews,
+              group
+              discussions, and workplace interactions.
+            </p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 2 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Beginner</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+        <div class="course-card" data-category="python">
+          <div class="course-card-img">
+            <img src="assets/images/internship.jpg" alt="Hardware Course">
+            <span class="course-category-badge">G-Tec Intership Programme</span>
+          </div>
+          <div class="course-card-body">
+            <h3>G-Tec Intership Programme</h3>
+            <p>This program offers practical exposure to learners through real-time projects, mentorship, and
+              industry-relevant tasks. It builds technical skills, problem-solving abilities, and professional work
+              habits, preparing students for successful career transitions.
+            </p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 3 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Beginner</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+        <!-- ---- CAD ---- -->
+        <div class="course-card" data-category="cad">
+          <div class="course-card-img">
+            <img src="assets/images/course-cad.jpg" alt="AutoCAD">
+            <span class="course-category-badge">CAD</span>
+          </div>
+          <div class="course-card-body">
+            <h3>AutoCAD 2D & 3D Design</h3>
+            <p>Learn AutoCAD for 2D drafting and 3D modeling. Used in engineering, architecture, interior design, and
+              manufacturing.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 5 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Intermediate</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Engineering</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="course-card" data-category="cad">
+          <div class="course-card-img">
+            <img src="assets/images/course-cad.jpg" alt="SolidWorks">
+            <span class="course-category-badge">CAD</span>
+          </div>
+          <div class="course-card-body">
+            <h3>SolidWorks & Mechanical Design</h3>
+            <p>Master SolidWorks for 3D mechanical design, assemblies, and engineering drawings used in product
+              development.</p>
+            <div class="course-meta">
+              <span class="course-meta-item"><i class="fa fa-clock"></i> 6 Months</span>
+              <span class="course-meta-item"><i class="fa fa-signal"></i> Advanced</span>
+              <span class="course-meta-item"><i class="fa fa-tag"></i> Mechanical</span>
+            </div>
+            <div class="course-card-footer">
+              <span class="cert-badge"><i class="fa fa-certificate"></i> Certified</span>
+              <a href="contact.html" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <h2>Can't Find Your Course?</h2>
+      <p>We offer many more specialized programs. Contact us to find the perfect course for your career goals.</p>
+      <div class="cta-btns">
+        <a href="contact.html" class="btn btn-primary"><i class="fa fa-phone"></i> Talk to a Counselor</a>
+        <a href="about.html" class="btn btn-outline"><i class="fa fa-info-circle"></i> About G-TEC</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="assets/images/gtec rounded logo.png" alt="G-TEC Logo" class="footer-logo-img">
+            <div class="footer-logo-text"><strong>G-TEC</strong><span>Education Anna Nagar Madurai</span></div>
+          </div>
+          <p>ISO-certified global institution with 25 years of excellence in IT education, skill development, and
+            vocational training.</p>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/share/1D6aQkkAHu/" target="_blank" aria-label="Facebook"><i
+                class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/gtecmaduraiannanagar?igsi=MTdvdXB1aGYwand3bw==" target="_blank"
+              aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/company/g-tec-groupofinstitutions" target="_blank"
+              aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://www.youtube.com/@gtecmaduraiannanagar?si=BLtbZpYww7VU9aK9" target="_blank"
+              aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <div class="footer-links">
+            <a href="index.html"><i class="fa fa-chevron-right"></i> Home</a>
+            <a href="about.html"><i class="fa fa-chevron-right"></i> About Us</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Courses</a>
+            <a href="gallery.html"><i class="fa fa-chevron-right"></i> Gallery</a>
+            <a href="contact.html"><i class="fa fa-chevron-right"></i> Contact Us</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Course Categories</h4>
+          <div class="footer-links">
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Software</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Hardware & Networking</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Graphic Design</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Web Development</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Digital Marketing</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Finance & Accounting</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <div class="footer-contact-item"><i class="fa fa-phone"></i><span>9025046473</span></div>
+          <div class="footer-contact-item"><i class="fa fa-envelope"></i><span>annanagarmdu.tn@gteceducation.com</span>
+          </div>
+          <div class="footer-contact-item"><i class="fa fa-location-dot"></i><span>Idhayam Complex No.416, 2nd Floor,
+              2nd East Main Road, New LIG Colony, Anna Nagar, Madurai - 625020</span></div>
+          <div class="footer-contact-item"><i class="fa fa-clock"></i><span>Mon–Sat: 9:00 AM – 7:00 PM</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <span>© 2026 <span class="accent-text">G-TEC Computer Education</span>. All Rights Reserved.</span>
+        <span>Designed with <span class="accent-text">❤</span> for Education</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fa fa-arrow-up"></i></button>
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <script src="js/main.js"></script>
+  <script src="js/buddy.js"></script>
+</body>
+
+
+</html>

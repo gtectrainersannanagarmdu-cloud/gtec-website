@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | G-TEC Computer Education</title>
+  <meta name="description"
+    content="Learn about G-TEC Computer Education — 25 years of excellence, 800+ centres worldwide, ISO-certified, and dedicated to shaping careers through world-class IT education.">
+  <meta name="keywords"
+    content="G-TEC about, G-TEC history, IT education Madurai, computer education Anna Nagar, PC Vasantha Kumar">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ---- Director Card ---- */
+    .director-section {
+      background: var(--bg-surface-alt);
+    }
+
+    .director-card {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 0;
+      align-items: stretch;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .director-img-wrap {
+      position: relative;
+      background: var(--gradient-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+      padding: 48px 30px;
+    }
+
+    .director-avatar {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      border: 4px solid rgba(255, 255, 255, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      color: var(--white);
+      font-weight: 900;
+    }
+
+    .director-img-name {
+      color: var(--white);
+      font-size: 1.2rem;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .director-img-role {
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-align: center;
+    }
+
+    .director-content {
+      padding: 48px 52px;
+    }
+
+    .director-content h2 {
+      font-size: clamp(1.5rem, 2.8vw, 2rem);
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+
+    .director-content h2 span {
+      color: var(--accent);
+    }
+
+    .director-content p {
+      color: var(--text-light);
+      line-height: 1.8;
+      margin-bottom: 14px;
+      font-size: 0.97rem;
+    }
+
+    .director-contact-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 28px;
+    }
+
+    .director-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 12px 26px;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .director-btn-primary {
+      background: var(--gradient-primary);
+      color: var(--white);
+      box-shadow: var(--shadow-md);
+    }
+
+    .director-btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .director-btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+
+    .director-btn-outline:hover {
+      background: var(--primary);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 900px) {
+      .director-card {
+        grid-template-columns: 1fr;
+      }
+
+      .director-img-wrap {
+        padding: 40px 24px;
+      }
+
+      .director-content {
+        padding: 32px 28px;
+      }
+    }
+
+    /* ---- Timeline ---- */
+    .timeline {
+      position: relative;
+      padding: 20px 0;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--gray-light);
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      display: flex;
+      justify-content: flex-end;
+      padding-right: calc(50% + 36px);
+      margin-bottom: 36px;
+      position: relative;
+    }
+
+    .timeline-item:nth-child(even) {
+      justify-content: flex-start;
+      padding-right: 0;
+      padding-left: calc(50% + 36px);
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      top: 22px;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 3px solid var(--white);
+      box-shadow: 0 0 0 3px var(--accent);
+      z-index: 1;
+    }
+
+    .timeline-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 22px 26px;
+      box-shadow: var(--shadow-sm);
+      max-width: 380px;
+      border-left: 4px solid var(--primary);
+      transition: var(--transition);
+    }
+
+    .timeline-item:nth-child(even) .timeline-card {
+      border-left: none;
+      border-right: 4px solid var(--accent);
+    }
+
+    .timeline-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .timeline-year {
+      font-size: 0.73rem;
+      font-weight: 800;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 6px;
+    }
+
+    .timeline-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+    }
+
+    .timeline-card p {
+      font-size: 0.84rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+      .timeline::before {
+        left: 20px;
+      }
+
+      .timeline-item,
+      .timeline-item:nth-child(even) {
+        justify-content: flex-start;
+        padding-right: 0;
+        padding-left: 52px;
+      }
+
+      .timeline-dot {
+        left: 20px;
+      }
+
+      .timeline-card,
+      .timeline-item:nth-child(even) .timeline-card {
+        border-left: 4px solid var(--primary);
+        border-right: none;
+        max-width: 100%;
+      }
+    }
+
+    /* ---- Why Choose Us Grid ---- */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+
+    @media (max-width: 767.98px) {
+      .why-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 575.98px) {
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .why-card {
+      text-align: center;
+      padding: 32px 20px;
+      border-radius: var(--radius-md);
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .why-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .why-icon {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 14px;
+    }
+
+    .why-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .why-card p {
+      font-size: 0.84rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+  </style>
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('gtec-theme');
+      if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+      }
+    })();
+  </script>
+</head>
+
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-left">
+        <span><i class="fa fa-phone"></i> 9025046473</span>
+        <span><i class="fa fa-envelope"></i> annanagarmdu.tn@gteceducation.com</span>
+      </div>
+      <div class="top-bar-right">
+        <div class="social-links">
+          <a href="https://www.facebook.com/share/1D6aQkkAHu/" target="_blank" aria-label="Facebook"><i
+              class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/gtecmaduraiannanagar?igsi=MTdvdXB1aGYwand3bw==" target="_blank"
+            aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/company/g-tec-groupofinstitutions" target="_blank" aria-label="LinkedIn"><i
+              class="fab fa-linkedin-in"></i></a>
+          <a href="https://youtube.com/@gtecmaduraiannanagar?si=BLtbZpYww7VU9aK9" target="_blank"
+            aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo" aria-label="G-TEC Home">
+        <img src="assets/images/gtec rounded logo.png" alt="G-TEC Logo" class="nav-logo-img">
+        <div class="nav-logo-text">
+          <strong>G-TEC</strong>
+          <span>Education Anna Nagar Madurai</span>
+        </div>
+      </a>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="index.html" class="nav-link">Home</a></li>
+        <li><a href="about.html" class="nav-link active">About</a></li>
+        <li><a href="courses.html" class="nav-link">Courses</a></li>
+        <li><a href="recommend.html" class="nav-link">Find My Course</a></li>
+        <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+        <li><a href="blog.html" class="nav-link">Blog</a></li>
+        <li><a href="contact.html" class="nav-link nav-cta">Contact Us</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch between light and dark mode"
+          title="Switch to Dark Mode">
+          <span class="theme-toggle-track">
+            <span class="theme-toggle-icons">
+              <i class="fas fa-sun theme-sun-icon" aria-hidden="true"></i>
+              <i class="fas fa-moon theme-moon-icon" aria-hidden="true"></i>
+            </span>
+            <span class="theme-toggle-thumb"></span>
+          </span>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <i class="fa fa-chevron-right"></i>
+      <span>About Us</span>
+    </div>
+    <h1>About G-TEC</h1>
+    <p>25 years of excellence — shaping futures through world-class IT education across 23+ countries.</p>
+  </div>
+
+  <!-- About G-TEC -->
+  <section class="section-pad" style="background: var(--bg-surface);">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: center;">
+        <div class="about-img-wrap reveal">
+          <img src="assets/images/about.jpg" alt="G-TEC Education Centre">
+          <div class="about-experience-badge">
+            <strong>25+</strong>
+            <span>Years of Excellence</span>
+          </div>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <span class="section-label">Who We Are</span>
+          <h2 class="section-title">A Global Network of <span>Excellence</span> in IT Education</h2>
+          <p style="color: var(--text-light); line-height: 1.8; margin-bottom: 16px;">
+            G-TEC Computer Education is an ISO-certified global institution and a trusted leader in IT education,
+            skill development, and vocational training. Founded with a vision to democratize quality technical
+            education, G-TEC has grown to become one of the most respected names in IT training.
+          </p>
+          <p style="color: var(--text-light); line-height: 1.8; margin-bottom: 16px;">
+            With 25 years of excellence, G-TEC has built a strong network of over 800+ training institutions
+            across more than 23 countries, empowering over 3.2 million students with industry-ready skills
+            and internationally recognized certifications.
+          </p>
+          <p style="color: var(--text-light); line-height: 1.8; margin-bottom: 28px;">
+            Our Anna Nagar, Madurai centre is a proud part of this global family — delivering the same
+            world-class curriculum with personalized, hands-on training and dedicated placement support.
+          </p>
+          <div class="about-features">
+            <div class="about-feature">
+              <div class="feature-icon"><i class="fa fa-globe"></i></div>
+              <div class="feature-text">
+                <h4>Global Presence</h4>
+                <p>Operating in 23+ countries with 800+ certified centres worldwide</p>
+              </div>
+            </div>
+            <div class="about-feature">
+              <div class="feature-icon"><i class="fa fa-certificate"></i></div>
+              <div class="feature-text">
+                <h4>ISO Certified</h4>
+                <p>Internationally recognized certificates accepted by employers globally</p>
+              </div>
+            </div>
+            <div class="about-feature">
+              <div class="feature-icon"><i class="fa fa-briefcase"></i></div>
+              <div class="feature-text">
+                <h4>Placement Support</h4>
+                <p>100% placement assistance with dedicated career guidance team</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card reveal">
+          <div class="stat-icon"><i class="fa fa-building"></i></div>
+          <div class="stat-number count-up" data-target="800" data-suffix="+">0+</div>
+          <div class="stat-label">Training Centres</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-1">
+          <div class="stat-icon"><i class="fa fa-users"></i></div>
+          <div class="stat-number count-up" data-target="3.2" data-suffix="M" data-decimals="1">0M</div>
+          <div class="stat-label">Students Trained</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-2">
+          <div class="stat-icon"><i class="fa fa-globe"></i></div>
+          <div class="stat-number count-up" data-target="23" data-suffix="+">0+</div>
+          <div class="stat-label">Countries Served</div>
+        </div>
+        <div class="stat-card reveal reveal-delay-3">
+          <div class="stat-icon"><i class="fa fa-award"></i></div>
+          <div class="stat-number count-up" data-target="25" data-suffix="+">0+</div>
+          <div class="stat-label">Years of Excellence</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & Vision -->
+  <section class="section-pad" style="background: var(--bg-surface);">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section-label">Our Purpose</span>
+        <h2 class="section-title">Mission &amp; <span>Vision</span></h2>
+        <p class="section-subtitle">Driven by a commitment to quality education and a vision for a skilled, empowered
+          future.</p>
+      </div>
+      <div class="mission-vision-grid">
+        <div class="mv-card reveal">
+          <div class="mv-card-icon" style="color: var(--primary);">🎯</div>
+          <h3>Our Mission</h3>
+          <p>
+            To provide affordable, high-quality IT education and vocational training that empowers individuals
+            with the skills, knowledge, and certifications required to succeed in a rapidly evolving digital world.
+            We are committed to building a future-ready workforce through practical, industry-aligned learning.
+          </p>
+        </div>
+        <div class="mv-card accent reveal reveal-delay-2">
+          <div class="mv-card-icon">🌟</div>
+          <h3>Our Vision</h3>
+          <p>
+            To be the most trusted and accessible global IT education institution — nurturing talent, bridging
+            the skill gap, and transforming lives through education. We envision a world where every aspiring
+            professional has access to world-class training and a clear pathway to career success.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Values -->
+  <section class="section-pad" style="background: var(--bg-surface-alt);">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section-label">What We Stand For</span>
+        <h2 class="section-title">Our Core <span>Values</span></h2>
+        <p class="section-subtitle">The principles that guide everything we do — from how we teach to how we support our
+          students.</p>
+      </div>
+      <div class="values-grid" style="margin-top: 48px;">
+        <div class="value-card reveal">
+          <div class="value-icon"><i class="fa fa-star"></i></div>
+          <h4>Excellence</h4>
+          <p>We maintain the highest standards in curriculum, teaching quality, and student outcomes.</p>
+        </div>
+        <div class="value-card reveal reveal-delay-1">
+          <div class="value-icon"><i class="fa fa-handshake"></i></div>
+          <h4>Integrity</h4>
+          <p>Transparency and honesty in all our dealings with students, parents, and partners.</p>
+        </div>
+        <div class="value-card reveal reveal-delay-2">
+          <div class="value-icon"><i class="fa fa-lightbulb"></i></div>
+          <h4>Innovation</h4>
+          <p>Continuously updating our courses to reflect the latest industry trends and technologies.</p>
+        </div>
+        <div class="value-card reveal reveal-delay-3">
+          <div class="value-icon"><i class="fa fa-users"></i></div>
+          <h4>Inclusivity</h4>
+          <p>Making quality IT education accessible to every student regardless of background.</p>
+        </div>
+        <div class="value-card reveal">
+          <div class="value-icon"><i class="fa fa-trophy"></i></div>
+          <h4>Achievement</h4>
+          <p>Celebrating every student milestone and driving them toward career success.</p>
+        </div>
+        <div class="value-card reveal reveal-delay-1">
+          <div class="value-icon"><i class="fa fa-heart"></i></div>
+          <h4>Student-First</h4>
+          <p>Every decision we make is centred around our students' growth and wellbeing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Journey / Timeline -->
+  <section class="section-pad" style="background: var(--bg-surface);">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section-label">Our Story</span>
+        <h2 class="section-title">25 Years of <span>Growth &amp; Impact</span></h2>
+        <p class="section-subtitle">A journey of dedication, expansion, and transformation in IT education.</p>
+      </div>
+      <div class="timeline" style="margin-top: 60px;">
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-year">2000 — The Beginning</div>
+            <h4>G-TEC Founded</h4>
+            <p>G-TEC Computer Education was established with a mission to bridge the digital skills gap and provide
+              affordable IT training across India.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-year">2005 — ISO Certification</div>
+            <h4>Internationally Recognized</h4>
+            <p>G-TEC achieved ISO certification, making its certificates recognized globally by employers and
+              institutions worldwide.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-year">2010 — Global Expansion</div>
+            <h4>Crossing Borders</h4>
+            <p>G-TEC expanded its presence beyond India, establishing centres in the Middle East, Southeast Asia, and
+              Africa — reaching students across continents.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-year">2015 — 500+ Centres</div>
+            <h4>Major Milestone Achieved</h4>
+            <p>G-TEC crossed 500 active training centres and 1 million students trained — a testament to its global
+              impact on IT education and employment.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-year">2020 — Digital Evolution</div>
+            <h4>Embracing the Future</h4>
+            <p>G-TEC introduced advanced digital marketing, cloud computing, and AI-enabled courses, keeping pace with
+              the 4th Industrial Revolution.</p>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="timeline-year">2025 — Silver Jubilee</div>
+            <h4>25 Years Strong</h4>
+            <p>G-TEC celebrates 25 years with 800+ centres in 23+ countries, 3.2 million+ students trained, and an
+              unwavering commitment to shaping futures.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Meet Our Centre Director -->
+  <section class="director-section section-pad">
+    <div class="container">
+      <div class="text-center reveal" style="margin-bottom: 48px;">
+        <span class="section-label">Leadership</span>
+        <h2 class="section-title">Meet Our <span>Centre Director</span></h2>
+        <p class="section-subtitle">The visionary leader driving excellence at G-TEC Anna Nagar, Madurai.</p>
+      </div>
+      <div class="director-card reveal">
+        <div class="director-img-wrap">
+          <div class="director-avatar">PV</div>
+          <div class="director-img-name">PC Vasantha Kumar</div>
+          <div class="director-img-role">Centre Director</div>
+        </div>
+        <div class="director-content">
+          <span class="section-label">Centre Director — G-TEC Anna Nagar</span>
+          <h2>PC Vasantha Kumar — <span>Leading with Passion</span></h2>
+          <p>
+            PC Vasantha Kumar is the Centre Director of G-TEC Computer Education, Anna Nagar, Madurai.
+            With a deep passion for education and technology, he has been instrumental in building a
+            centre that upholds the highest standards of G-TEC's global curriculum while nurturing
+            local talent.
+          </p>
+          <p>
+            Under his leadership, G-TEC Anna Nagar has emerged as a preferred IT training destination
+            in Madurai, empowering hundreds of students with job-ready skills, internationally recognized
+            certifications, and dedicated placement support.
+          </p>
+          <p>
+            His commitment to student success, hands-on learning, and continuous improvement reflects
+            the very values that G-TEC was founded upon. He personally oversees course quality, student
+            counselling, and industry outreach — ensuring every student achieves their career goals.
+          </p>
+          <div class="director-contact-row">
+            <a href="tel:9944046563" class="director-btn director-btn-primary">
+              <i class="fa fa-phone"></i> 9944046563
+            </a>
+            <a href="contact.html" class="director-btn director-btn-outline">
+              <i class="fa fa-envelope"></i> Send a Message
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us -->
+  <section class="why-section section-pad" style="background: var(--bg-surface);">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section-label">Why G-TEC</span>
+        <h2 class="section-title">Why <span>Choose Us</span>?</h2>
+        <p class="section-subtitle">G-TEC is more than just an institute — we are a global community of students,
+          teachers, and partners who grow and succeed together.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card reveal">
+          <div class="why-icon"><i class="fa fa-certificate"></i></div>
+          <h3>Internationally Recognized</h3>
+          <p>Our certificates are accepted by employers in 23+ countries worldwide.</p>
+        </div>
+        <div class="why-card reveal reveal-delay-1">
+          <div class="why-icon"><i class="fa fa-chalkboard-teacher"></i></div>
+          <h3>Expert Instructors</h3>
+          <p>Learn from experienced industry professionals and certified trainers.</p>
+        </div>
+        <div class="why-card reveal reveal-delay-2">
+          <div class="why-icon"><i class="fa fa-laptop"></i></div>
+          <h3>Hands-on Training</h3>
+          <p>Practical, project-based learning that prepares you for real-world careers.</p>
+        </div>
+        <div class="why-card reveal reveal-delay-3">
+          <div class="why-icon"><i class="fa fa-briefcase"></i></div>
+          <h3>100% Placement Support</h3>
+          <p>Dedicated placement assistance and career guidance for all students.</p>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-icon"><i class="fa fa-clock"></i></div>
+          <h3>Flexible Schedule</h3>
+          <p>Morning, evening, and weekend batches to fit your busy lifestyle.</p>
+        </div>
+        <div class="why-card reveal reveal-delay-1">
+          <div class="why-icon"><i class="fa fa-shield-halved"></i></div>
+          <h3>ISO Certified</h3>
+          <p>Quality-assured education backed by 25 years of excellence and ISO certification.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Affiliations & Global Partners Section -->
+  <section class="affiliations-section section-pad" id="affiliations">
+    <div class="container">
+      <div class="text-center reveal">
+        <span class="section-label">Global Recognition</span>
+        <h2 class="section-title">Our Prestigious <span>Affiliations &amp; Partners</span></h2>
+        <p class="section-subtitle">
+          G-TEC is proud to collaborate with industry-leading technology giants, professional accounting institutions,
+          and international certification bodies worldwide.
+        </p>
+      </div>
+
+      <div class="affiliations-grid">
+        <!-- Row 1 -->
+        <div class="affiliation-card reveal">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/Tally.jpg" alt="Tally Education Partner" loading="lazy">
+          </div>
+          <div class="affiliation-title">Tally Education</div>
+          <div class="affiliation-subtitle">Authorized Training Partner</div>
+        </div>
+
+        <div class="affiliation-card reveal reveal-delay-1">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/sap.jpg" alt="SAP Partner" loading="lazy">
+          </div>
+          <div class="affiliation-title">SAP</div>
+          <div class="affiliation-subtitle">Global ERP &amp; Finance Partner</div>
+        </div>
+
+        <div class="affiliation-card reveal reveal-delay-2">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/adobe.jpg" alt="Adobe Certified Professional" loading="lazy">
+          </div>
+          <div class="affiliation-title">Adobe</div>
+          <div class="affiliation-subtitle">Certified Training Associate</div>
+        </div>
+
+        <div class="affiliation-card reveal reveal-delay-3">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/cisco certificate.jpg" alt="Cisco Networking" loading="lazy">
+          </div>
+          <div class="affiliation-title">Cisco</div>
+          <div class="affiliation-subtitle">Networking Academy Curriculum</div>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="affiliation-card reveal">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/autodesk.jpg" alt="Autodesk" loading="lazy">
+          </div>
+          <div class="affiliation-title">Autodesk</div>
+          <div class="affiliation-subtitle">Authorized CAD &amp; Design Partner</div>
+        </div>
+
+        <div class="affiliation-card reveal reveal-delay-1">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/EC council.jpg" alt="EC-Council" loading="lazy">
+          </div>
+          <div class="affiliation-title">EC-Council</div>
+          <div class="affiliation-subtitle">Cybersecurity &amp; Ethical Hacking</div>
+        </div>
+
+        <div class="affiliation-card reveal reveal-delay-2">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/meta.jpg" alt="Meta" loading="lazy">
+          </div>
+          <div class="affiliation-title">Meta</div>
+          <div class="affiliation-subtitle">Digital Marketing Certification</div>
+        </div>
+
+        <div class="affiliation-card reveal reveal-delay-3">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/zoho.jpg" alt="Zoho" loading="lazy">
+          </div>
+          <div class="affiliation-title">Zoho</div>
+          <div class="affiliation-subtitle">Authorized Business Cloud Partner</div>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="affiliation-card reveal">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/ceriport.jpg" alt="Certiport" loading="lazy">
+          </div>
+          <div class="affiliation-title">Certiport</div>
+          <div class="affiliation-subtitle">Pearson VUE Authorized Testing Center</div>
+        </div>
+
+        <div class="affiliation-card reveal reveal-delay-1">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/quickbooks.jpg" alt="Intuit QuickBooks" loading="lazy">
+          </div>
+          <div class="affiliation-title">Intuit QuickBooks</div>
+          <div class="affiliation-subtitle">Accounting &amp; Bookkeeping Certified</div>
+        </div>
+
+        <div class="affiliation-card reveal reveal-delay-2">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/keltron.jpg" alt="Keltron Knowledge Services" loading="lazy">
+          </div>
+          <div class="affiliation-title">Keltron</div>
+          <div class="affiliation-subtitle">Govt. Enterprise Technical Partner</div>
+        </div>
+
+        <div class="affiliation-card reveal reveal-delay-3">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/ABMA.jpg" alt="ABMA Education UK" loading="lazy">
+          </div>
+          <div class="affiliation-title">ABMA Education UK</div>
+          <div class="affiliation-subtitle">International Recognized Qualifications</div>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="affiliation-card reveal">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/IAAP.jpg" alt="IAAP UK" loading="lazy">
+          </div>
+          <div class="affiliation-title">IAAP UK</div>
+          <div class="affiliation-subtitle">International Association of Accounting</div>
+        </div>
+
+        <div class="affiliation-card reveal reveal-delay-1">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/IC3.jpg" alt="IC3 Global Standard" loading="lazy">
+          </div>
+          <div class="affiliation-title">IC3 Global Standard</div>
+          <div class="affiliation-subtitle">Digital Literacy &amp; Computing Core</div>
+        </div>
+
+        <div class="affiliation-card reveal reveal-delay-2">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/ITS.jpg" alt="Information Technology Specialist" loading="lazy">
+          </div>
+          <div class="affiliation-title">ITS Specialist</div>
+          <div class="affiliation-subtitle">Information Technology Certifications</div>
+        </div>
+
+        <div class="affiliation-card reveal reveal-delay-3">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/ESB.jpg" alt="ESB" loading="lazy">
+          </div>
+          <div class="affiliation-title">ESB</div>
+          <div class="affiliation-subtitle">Entrepreneurship &amp; Small Business</div>
+        </div>
+
+        <!-- Row 5 -->
+        <div class="affiliation-card reveal">
+          <div class="affiliation-logo-wrap">
+            <img src="assets/images/affiliations/institute of acoountants.jpg" alt="Institute of Certified Accountants"
+              loading="lazy">
+          </div>
+          <div class="affiliation-title">Institute of Accountants</div>
+          <div class="affiliation-subtitle">Professional Certified Accountants</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+
+    <div class="container">
+      <h2>Ready to Begin Your Journey?</h2>
+      <p>Join G-TEC Anna Nagar and take the first step towards a rewarding IT career. Our expert counselors are ready to
+        guide you.</p>
+      <div class="cta-btns">
+        <a href="courses.html" class="btn btn-primary"><i class="fa fa-graduation-cap"></i> Explore Courses</a>
+        <a href="contact.html" class="btn btn-outline"><i class="fa fa-phone"></i> Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="assets/images/gtec rounded logo.png" alt="G-TEC Logo" class="footer-logo-img">
+            <div class="footer-logo-text"><strong>G-TEC</strong><span>Education Anna Nagar Madurai</span></div>
+          </div>
+          <p>ISO-certified global institution with 25 years of excellence in IT education, skill development, and
+            vocational training.</p>
+          <div class="footer-social">
+            <a href="https://www.facebook.com/share/1D6aQkkAHu/" target="_blank" aria-label="Facebook"><i
+                class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/gtecmaduraiannanagar?igsi=MTdvdXB1aGYwand3bw==" target="_blank"
+              aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/company/g-tec-groupofinstitutions" target="_blank"
+              aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://youtube.com/@gtecmaduraiannanagar?si=BLtbZpYww7VU9aK9" target="_blank"
+              aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <div class="footer-links">
+            <a href="index.html"><i class="fa fa-chevron-right"></i> Home</a>
+            <a href="about.html"><i class="fa fa-chevron-right"></i> About Us</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Courses</a>
+            <a href="gallery.html"><i class="fa fa-chevron-right"></i> Gallery</a>
+            <a href="contact.html"><i class="fa fa-chevron-right"></i> Contact Us</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Popular Courses</h4>
+          <div class="footer-links">
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> MS Office &amp; Basics</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Tally ERP &amp; GST</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Graphic Design</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Web Development</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Hardware &amp; Networking</a>
+            <a href="courses.html"><i class="fa fa-chevron-right"></i> Digital Marketing</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Contact Us</h4>
+          <div class="footer-contact-item"><i class="fa fa-phone"></i><span>9025046473</span></div>
+          <div class="footer-contact-item"><i class="fa fa-phone"></i><span>9944046563 (Director)</span></div>
+          <div class="footer-contact-item"><i class="fa fa-envelope"></i><span>annanagarmdu.tn@gteceducation.com</span>
+          </div>
+          <div class="footer-contact-item"><i class="fa fa-location-dot"></i><span>Idhayam Complex No.416, 2nd Floor,
+              2nd East Main Road, New LIG Colony, Anna Nagar, Madurai – 625020</span></div>
+          <div class="footer-contact-item"><i class="fa fa-clock"></i><span>Mon–Sat: 9:00 AM – 7:00 PM</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <span>© 2026 <span class="accent-text">G-TEC Computer Education</span>. All Rights Reserved.</span>
+        <span>Designed with <span class="accent-text">❤</span> for Education</span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fa fa-arrow-up"></i></button>
+  <!-- Bootstrap 5.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="js/main.js"></script>
+  <script src="js/buddy.js"></script>
+</body>
+
+</html>
