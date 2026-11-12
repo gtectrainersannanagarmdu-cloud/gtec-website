@@ -1,0 +1,22 @@
+# ==========================================================================
+#  OPTIONAL - only needed to RETRAIN the model. The website never needs this.
+#
+#  Install:  python -m pip install -r requirements-train.txt
+#
+#  Adds ~1 GB to the virtual environment (torch + transformers + datasets).
+#  Use this for:
+#      python train_lite_model.py     retrain the 1 MB TF-IDF model
+#      python train_model.py          retrain the DistilBERT model
+#
+#  After training, upload with:  .\deploy\publish.ps1 -HfUser GtecBuddy
+# ==========================================================================
+
+-r requirements.txt
+
+# DistilBERT training / inference
+torch>=2.2.0
+transformers>=4.47.0
+safetensors>=0.4.3
+datasets>=2.21.0
+accelerate>=0.30.0
+pandas>=2.2.0

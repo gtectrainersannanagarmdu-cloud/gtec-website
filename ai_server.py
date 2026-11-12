@@ -1,10 +1,19 @@
 # ==========================================================================
 #   G-TEC AI Server — Flask REST API
 #   Endpoints:
-#     GET  /           — health check
-#     GET  /status     — model info
-#     POST /predict    — single-turn intent prediction
-#     POST /chat       — multi-turn course recommendation conversation
+#     GET  /            — health check
+#     GET  /status      — model info
+#     GET  /health      — readiness probe
+#     POST /predict     — single-turn intent prediction
+#     POST /chat        — intent routing for the chat widget
+#     GET  /courses     — course catalogue + wizard questions (from the Hub)
+#     POST /recommend   — course recommendation (second Hugging Face model)
+#     GET  /navigation  — intent -> page map published with the model
+#
+#   Both models are downloaded from the Hugging Face Hub:
+#     intent_clf.joblib    (~1 MB, 18 intents)
+#     course_clf.joblib    (~6 KB, 22 courses)
+#     navigation.json      (19 intent -> page mappings)
 #
 #   Supports 18 intents from the combined dataset:
 #     ABOUT, CENTRE_INFO, CONTACT, COURSES, COURSE_RECOMMENDATION,
@@ -19,32 +28,64 @@ from flask_cors import CORS
 import os
 import re
 
+# Local course catalogue + decision rules (pure standard library). The model
+# is the primary source of recommendations; this module provides the offline
+# fallback and the list of answers the model accepts.
+try:
+    import course_rules
+except Exception as _exc:  # pragma: no cover - only if the file is missing
+    course_rules = None
+    print(f"WARNING: course_rules.py unavailable: {_exc}")
+
 app = Flask(__name__)
 CORS(app)
 
 # ------------------------------------------------------------------
 # Configuration
 #
+# Default = LIGHTWEIGHT. The ~1 MB TF-IDF model is downloaded from the
+# Hugging Face Hub and runs in ~120 MB of RAM with no PyTorch at all.
+#
 # Two interchangeable backends are supported:
 #
 #   lite   TF-IDF + calibrated LinearSVC (~1 MB, ~120 MB RAM, no PyTorch)
-#          -> free hosting (Render 512 MB, Cloud Run, GitHub Actions, ...)
-#   torch  DistilBERT pulled from the Hugging Face Hub (~255 MB, ~800 MB RAM)
-#          -> local development, or any host with >= 1 GB of RAM
+#          -> DEFAULT. Weights come from the Hub; the local file in model/
+#             is only an offline fallback.
+#   torch  DistilBERT (~255 MB, ~800 MB RAM, needs torch + transformers)
+#          -> opt-in only. Install with `pip install -r requirements-train.txt`
+#             and set MODEL_BACKEND=torch.
 #
 # Environment variables:
-#   MODEL_BACKEND = lite | torch | auto     (auto = torch when installed, else lite)
+#   MODEL_BACKEND = lite | torch | auto   (default: lite)
 #   MODEL_ID      = <user>/gtec-intent-model
+#                   (default: GtecBuddy/gtec-intent-model)
 #   HF_TOKEN      = optional, only for private Hub repos
+#
+# Values in .env are loaded automatically when python-dotenv is installed,
+# so the Python server and the Node server read the same configuration.
 # ------------------------------------------------------------------
-BASE_DIR         = os.path.dirname(os.path.abspath(__file__))
-MODEL_ID         = os.getenv("MODEL_ID", "").strip()
-MODEL_BACKEND    = os.getenv("MODEL_BACKEND", "auto").strip().lower()
-HF_TOKEN         = os.getenv("HF_TOKEN", "").strip() or None
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+try:  # optional dependency: makes .env apply to the Python server too
+    from dotenv import load_dotenv
+    load_dotenv(os.path.join(BASE_DIR, ".env"))
+except Exception:
+    pass
+
+DEFAULT_MODEL_ID  = "GtecBuddy/gtec-intent-model"
+MODEL_ID          = (os.getenv("MODEL_ID") or DEFAULT_MODEL_ID).strip()
+MODEL_BACKEND     = (os.getenv("MODEL_BACKEND") or "lite").strip().lower()
+HF_TOKEN          = (os.getenv("HF_TOKEN") or "").strip() or None
 
 LITE_FILENAME    = "intent_clf.joblib"
 LITE_LOCAL_PATH  = os.path.join(BASE_DIR, "model", "gtec-intent-lite.joblib")
 TORCH_LOCAL_PATH = os.path.join(BASE_DIR, "model", "gtec-intent-model-v2")
+
+# Second model: maps the four "Find My Course" answers -> course name.
+COURSE_FILENAME        = "course_clf.joblib"
+COURSE_META_FILENAME   = "course_clf_meta.json"
+COURSE_LOCAL_PATH      = os.path.join(BASE_DIR, "model", "gtec-course-lite.joblib")
+COURSE_META_LOCAL_PATH = os.path.join(BASE_DIR, "model", "gtec-course-lite-meta.json")
 
 engine    = None   # "lite" | "torch"
 clf       = None   # sklearn pipeline (lite)
@@ -53,6 +94,10 @@ model     = None   # transformers model (torch)
 id2label  = {}
 label2id  = {}
 MODEL_SOURCE = ""
+
+course_clf    = None   # sklearn pipeline (course recommender)
+COURSE_META   = {}     # catalogue + question definitions, published with the model
+COURSE_SOURCE = ""
 
 
 def _load_lite():
@@ -131,9 +176,9 @@ def _load_model():
     errors = []
 
     if MODEL_BACKEND in ("auto", ""):
-        # Locally torch is installed -> use the full DistilBERT.
-        # On free hosts torch is absent -> use the 1 MB lite model.
-        order = (["torch"] if _torch_installed() else []) + ["lite"]
+        # Lightweight first: the lite model is 1 MB / ~120 MB RAM.
+        # DistilBERT is only attempted as a last resort.
+        order = ["lite"] + (["torch"] if _torch_installed() else [])
     else:
         order = [MODEL_BACKEND]
 
@@ -176,76 +221,109 @@ for key, value in sorted(id2label.items()):
     print(f"  {key} -> {value}")
 
 
-# ------------------------------------------------------------------
-# Multi-turn session store  {session_id: ConversationState}
-# Each state tracks which question we are on and collected answers.
-# ------------------------------------------------------------------
-_sessions: dict[str, dict] = {}
+def _load_course_model():
+    """Course recommender (~0.6 MB). Downloaded from the Hub with its metadata."""
+    global course_clf, COURSE_META, COURSE_SOURCE
 
-# Questions asked during the COURSE_RECOMMENDATION flow
-RECOM_QUESTIONS = [
-    {
-        "key": "background",
-        "question": "What is your educational background?",
-        "options": ["10th / 12th", "Diploma", "Degree (Arts/Science/Commerce/Engg)", "Postgraduate", "Working professional"]
-    },
-    {
-        "key": "interest",
-        "question": "Which area interests you the most?",
-        "options": ["Computers / Coding", "Accounts / Finance", "Design / Creative", "Networking / Hardware", "Marketing / Social Media", "Data / Analytics", "Not sure yet"]
-    },
-    {
-        "key": "goal",
-        "question": "What is your primary goal after the course?",
-        "options": ["Get a job quickly", "Start my own business", "Upgrade my skills", "Work from home / freelance", "Just exploring"]
-    },
-    {
-        "key": "previous",
-        "question": "Have you completed any computer course before?",
-        "options": [
-            "No, I'm a complete beginner",
-            "Yes, a basic computer course",
-            "Yes, a technical course (Tally / programming / networking)",
-            "I have some self-taught skills"
-        ]
-    }
-]
+    import json
+    import joblib
+    from huggingface_hub import hf_hub_download
+
+    clf_path = meta_path = None
+
+    if MODEL_ID:
+        try:
+            print(f"Fetching {COURSE_FILENAME} from Hub ({MODEL_ID})...")
+            clf_path = hf_hub_download(
+                repo_id=MODEL_ID, filename=COURSE_FILENAME, token=HF_TOKEN
+            )
+            try:
+                meta_path = hf_hub_download(
+                    repo_id=MODEL_ID, filename=COURSE_META_FILENAME, token=HF_TOKEN
+                )
+            except Exception as exc:
+                print(f"WARNING: course metadata unavailable: {exc}")
+        except Exception as exc:
+            print(f"WARNING: course model not found on Hub: {exc}")
+
+    if not clf_path and os.path.isfile(COURSE_LOCAL_PATH):
+        print(f"Loading course model from disk: {COURSE_LOCAL_PATH}")
+        clf_path = COURSE_LOCAL_PATH
+    if not meta_path and os.path.isfile(COURSE_META_LOCAL_PATH):
+        meta_path = COURSE_META_LOCAL_PATH
+
+    if not clf_path:
+        print("WARNING: no course model - /recommend falls back to rules.")
+        return
+
+    course_clf = joblib.load(clf_path)
+    if meta_path:
+        with open(meta_path, "r", encoding="utf-8") as f:
+            COURSE_META = json.load(f)
+
+    COURSE_SOURCE = (
+        f"hf:{MODEL_ID}" if clf_path != COURSE_LOCAL_PATH else f"local:{clf_path}"
+    )
+    print(f"Course model loaded: {COURSE_SOURCE} "
+          f"({len(course_clf.classes_)} courses)")
+
+
+print("Loading G-TEC course recommender...")
+_load_course_model()
+
 
 # ------------------------------------------------------------------
-# Recommendation logic — returns best course name based on answers
+# Navigation knowledge published with the model on the Hugging Face Hub
 # ------------------------------------------------------------------
-def _recommend_course(background: str, interest: str, goal: str, previous: str = "") -> str:
-    interest_lower = interest.lower()
-    goal_lower     = goal.lower()
-    bg_lower       = background.lower()
+NAV_FILENAME      = "navigation.json"
+NAV_LOCAL_PATH    = os.path.join(BASE_DIR, "navigation.json")
+NAVIGATION        = {}
+NAVIGATION_SOURCE = ""
 
-    # 1) Always honour the area the user chose.
-    if "data" in interest_lower or "analytics" in interest_lower:
-        return "Certificate Course in Data Analytics (CCDA)"
-    if "account" in interest_lower or "finance" in interest_lower:
-        return "Tally Prime with GST & Financial Accounting"
-    if "design" in interest_lower or "creative" in interest_lower:
-        if "business" in goal_lower or "marketing" in goal_lower:
-            return "Digital Marketing Master"
-        return "Graphic Design & UI/UX"
-    if "network" in interest_lower or "hardware" in interest_lower:
-        return "Hardware & Networking (CCNA + CCTV)"
-    if "marketing" in interest_lower or "social" in interest_lower:
-        return "Digital Marketing Master"
-    if ("coding" in interest_lower or "programming" in interest_lower
-            or "computer" in interest_lower or "software" in interest_lower):
-        return "Web & Full Stack Development"
 
-    # 2) "Not sure yet" or no clear interest → fall back to background + goal.
-    if "commerce" in bg_lower or "arts" in bg_lower:
-        if "business" in goal_lower:
-            return "Tally Prime with GST & Financial Accounting"
-        return "MS Office & Computer Basics (DCA)"
-    if "science" in bg_lower or "engineering" in bg_lower:
-        return "Web & Full Stack Development"
-    if "job" in goal_lower:
-        return "MS Office & Computer Basics (DCA)"
-    return "MS Office & Computer Basics (DCA)"
+def _load_navigation():
+    """Fetch intent -> page mappings from the Hub (local file as fallback)."""
+    global NAVIGATION, NAVIGATION_SOURCE
+
+    import json
+    from huggingface_hub import hf_hub_download
+
+    path = None
+    if MODEL_ID:
+        try:
+            print(f"Fetching {NAV_FILENAME} from Hub ({MODEL_ID})...")
+            path = hf_hub_download(
+                repo_id=MODEL_ID, filename=NAV_FILENAME, token=HF_TOKEN
+            )
+        except Exception as exc:
+            print(f"WARNING: navigation.json not on Hub: {exc}")
+
+    if path is None and os.path.isfile(NAV_LOCAL_PATH):
+        path = NAV_LOCAL_PATH
+
+    if path is None:
+        print("WARNING: no navigation.json - buddy.js keeps its built-in map.")
+        return
+
+    with open(path, "r", encoding="utf-8") as f:
+        payload = json.load(f)
+
+    NAVIGATION = payload.get("intents", payload)
+    NAVIGATION_SOURCE = (
+        f"hf:{MODEL_ID}" if path != NAV_LOCAL_PATH else f"local:{path}"
+    )
+    print(f"Navigation loaded: {NAVIGATION_SOURCE} ({len(NAVIGATION)} intents)")
+
+
+print("Loading G-TEC navigation map...")
+_load_navigation()
+
+
+# ------------------------------------------------------------------
+# The course wizard questions and decision rules live in course_rules.py
+# (and are also published with the model as course_clf_meta.json), so this
+# server no longer keeps a second, divergent copy of them.
+# ------------------------------------------------------------------
 
 
 # ------------------------------------------------------------------
@@ -293,11 +371,15 @@ def home():
 def status():
     return jsonify({
         "status": "ok",
-        "model": "gtec-intent-model-v2",
+        "model": "gtec-intent-lite" if engine == "lite" else "gtec-intent-model-v2",
         "model_source": MODEL_SOURCE,
         "backend": engine,
         "intents": len(id2label),
-        "intent_list": [id2label[i] for i in sorted(id2label.keys())]
+        "intent_list": [id2label[i] for i in sorted(id2label.keys())],
+        "course_model_source": COURSE_SOURCE,
+        "courses": len(COURSE_META.get("courses", [])),
+        "navigation_source": NAVIGATION_SOURCE,
+        "navigation_intents": len(NAVIGATION)
     })
 
 
@@ -326,6 +408,176 @@ def predict():
         "intent":     intent,
         "confidence": round(confidence, 4)
     })
+
+
+# ------------------------------------------------------------------
+# Course recommender API (second model, served from the Hub)
+#
+# The model was trained on CATEGORICAL answers, not prose:
+#     [background, interest, goal, previous]
+# Sending it free text would produce meaningless output, so /recommend asks
+# for the four answers and returns the wizard questions when they are absent.
+# ------------------------------------------------------------------
+def _catalogue() -> list:
+    """Course catalogue, preferring the copy published with the model."""
+    courses = COURSE_META.get("courses")
+    if courses:
+        return courses
+    return course_rules.COURSES if course_rules else []
+
+
+def _questions() -> list:
+    """Wizard questions, preferring the copy published with the model."""
+    questions = COURSE_META.get("questions")
+    if questions:
+        return questions
+    return course_rules.RECOM_QUESTIONS if course_rules else []
+
+
+def _accepted_answers() -> dict:
+    """Every value the model was trained on (used to validate input)."""
+    if course_rules is None:
+        return {}
+    return {
+        "background": list(course_rules.BACKGROUNDS),
+        "interest": ["unsure"] + [c["name"] for c in course_rules.COURSES],
+        "goal": list(course_rules.GOALS),
+        "previous": list(course_rules.PREVIOUS),
+    }
+
+
+def _invalid_fields(background: str, interest: str, goal: str, previous: str) -> dict:
+    """Fields whose value the model has never seen, mapped to accepted values."""
+    answers = _accepted_answers()
+    if not answers:
+        return {}
+    supplied = {
+        "background": background,
+        "interest": interest,
+        "goal": goal,
+        "previous": previous,
+    }
+    return {
+        field: {"got": value, "accepted": answers[field]}
+        for field, value in supplied.items()
+        if value not in answers[field]
+    }
+
+
+def _course_details(name: str) -> dict:
+    """Catalogue entry + the courses.html URL for that category."""
+    for course in _catalogue():
+        if course.get("name") == name:
+            details = dict(course)
+            flt = details.get("filter") or "all"
+            details["url"] = ("courses.html" if flt == "all"
+                              else f"courses.html?filter={flt}")
+            return details
+
+    return {"name": name, "category": "all", "filter": "all",
+            "url": "courses.html", "level": "", "duration": "", "img": ""}
+
+
+@app.route("/courses", methods=["GET"])
+def courses():
+    """Course catalogue + wizard questions, published on the Hub."""
+    return jsonify({
+        "source": COURSE_SOURCE,
+        "accuracy": COURSE_META.get(
+            "accuracy_full_grid", COURSE_META.get("accuracy")
+        ),
+        "accuracy_holdout": COURSE_META.get("accuracy_holdout"),
+        "courses": _catalogue(),
+        "questions": _questions()
+    })
+
+
+@app.route("/navigation", methods=["GET"])
+def navigation():
+    """Intent -> page mapping, published with the model on the Hub."""
+    return jsonify({
+        "source": NAVIGATION_SOURCE,
+        "intents": NAVIGATION
+    })
+
+
+@app.route("/recommend", methods=["POST"])
+def recommend():
+    """
+    Course recommendation from the trained model.
+
+    Request body (wizard) - the only form the model understands:
+        { "background": "commerce", "interest": "unsure",
+          "goal": "job", "previous": "basic" }
+
+    Response:
+        { "course": { "name": ..., "url": ... }, "confidence": 0.99,
+          "source": "hf:<repo>", "alternatives": [ ... ] }
+
+    If the four answers are missing, a 200 with "needs_answers": true and the
+    question list is returned. A categorical model cannot score free text.
+    """
+    data = request.get_json(silent=True) or {}
+
+    background = str(data.get("background") or "").strip()
+    interest   = str(data.get("interest") or "").strip()
+    goal       = str(data.get("goal") or "").strip()
+    previous   = str(data.get("previous") or "").strip()
+
+    if not all([background, interest, goal, previous]):
+        return jsonify({
+            "needs_answers": True,
+            "source": "needs-answers",
+            "message": ("Answer these four questions so the course model can "
+                        "pick the right course."),
+            "questions": _questions()
+        }), 200
+
+    invalid = _invalid_fields(background, interest, goal, previous)
+    if invalid:
+        return jsonify({
+            "error": "One or more answers are not recognised by the model.",
+            "invalid": invalid,
+            "questions": _questions()
+        }), 400
+
+    if course_clf is not None:
+        # Categorical input: one row, four columns, in training order.
+        proba = course_clf.predict_proba([[background, interest, goal, previous]])[0]
+        names = list(course_clf.classes_)
+        order = proba.argsort()[::-1]
+        best  = int(order[0])
+        name  = names[best]
+
+        return jsonify({
+            "course": _course_details(name),
+            "confidence": round(float(proba[best]), 4),
+            "source": COURSE_SOURCE,
+            "input": {
+                "background": background,
+                "interest": interest,
+                "goal": goal,
+                "previous": previous
+            },
+            "alternatives": [
+                {"name": names[int(i)], "confidence": round(float(proba[int(i)]), 4)}
+                for i in order[1:4]
+            ]
+        })
+
+    if course_rules is not None:
+        # Rules-only fallback so the wizard still works without the model.
+        name = course_rules.teacher(background, interest, goal, previous)[0]
+        return jsonify({
+            "course": _course_details(name),
+            "confidence": None,
+            "source": "rules:fallback",
+            "alternatives": []
+        })
+
+    return jsonify({
+        "error": "No course model and no course_rules.py available."
+    }), 503
 
 
 @app.route("/chat", methods=["POST"])

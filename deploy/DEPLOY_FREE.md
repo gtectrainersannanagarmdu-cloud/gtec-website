@@ -2,10 +2,15 @@
 
 ```
 GitHub repo ─────► Render: gtec-website  (Node/Express, free)
-                           │  server-side proxy /api/predict
+                           │  server-side proxy /api/predict, /api/chat,
+                           │  /api/recommend, /api/courses, /api/navigation
                            ▼
                    Render: gtec-ai      (Flask, free 512 MB)
-                           │  downloads intent_clf.joblib (~0.8 MB)
+                           │  downloads from the Hub at startup:
+                           │    intent_clf.joblib    (~1 MB)
+                           │    course_clf.joblib    (~6 KB)
+                           │    course_clf_meta.json
+                           │    navigation.json
                            ▼
                    Hugging Face Hub: GtecBuddy/gtec-intent-model
 ```
@@ -15,24 +20,28 @@ Three moving parts, all free:
 | Piece | Where | Cost |
 | --- | --- | --- |
 | Website + Node server | Render free web service | $0 |
-| AI intent API | Render free web service (`lite` backend) | $0 |
-| Model weights | Hugging Face Model Hub | $0 |
+| AI intent + course API | Render free web service (`lite` backend) | $0 |
+| Model weights + navigation map | Hugging Face Model Hub | $0 |
 
 Why the `lite` backend: the free Render instance has **512 MB RAM**. DistilBERT +
 PyTorch needs ~800 MB, so it would be killed with `Out of memory`. The lite
-TF-IDF model needs ~120 MB and scores **94.0 %** on your validation split
+TF-IDF intent model needs ~120 MB and scores **94.0 %** on your validation split
 (DistilBERT: 93.9 %), while the full DistilBERT stays available for local demos.
+The course recommender is a separate 6 KB categorical model with **100 %**
+agreement with the wizard rules on all 3,680 answer combinations.
 
 ---
 
 ## What is already done
 
 - [x] DistilBERT weights uploaded: `GtecBuddy/gtec-intent-model`
-- [x] Lite model trained (94.0 % accuracy) and uploaded as `intent_clf.joblib`
-- [x] `ai_server.py` supports both backends (`MODEL_BACKEND=lite|torch`)
+- [x] Lite intent model trained (94.0 % accuracy) and uploaded as `intent_clf.joblib`
+- [x] Course model trained (100 % grid agreement) and uploaded as `course_clf.joblib` + `course_clf_meta.json`
+- [x] Intent -> page map uploaded as `navigation.json`
+- [x] `ai_server.py` downloads all of it from the Hub (`MODEL_BACKEND=lite|torch`)
 - [x] `render.yaml` blueprint for both services
 - [x] `deploy/render/requirements-ai.txt` (no torch)
-- [x] `server.js` normalises `AI_BASE_URL` and proxies to the AI service
+- [x] `server.js` normalises `AI_BASE_URL` and proxies every `/api/*` call
 
 ---
 
@@ -44,10 +53,12 @@ cd "F:\Trainer_Thowfic\GTEC Website"
 # review what will be committed first
 git status --short
 
-git add ai_server.py server.js public/js/buddy.js package.json requirements.txt `
-        render.yaml train_lite_model.py deploy/ .gitignore .env.example
+git add ai_server.py server.js public/js/buddy.js public/js/recommend.js `
+        course_rules.py navigation.json package.json requirements.txt `
+        requirements-train.txt train_lite_model.py train_course_model.py `
+        render.yaml deploy/ .gitignore .env.example
 
-git commit -m "feat: HF Hub model + free Render deployment (lite backend)"
+git commit -m "feat: HF Hub intent + course models, free Render deployment"
 git push origin main
 ```
 
@@ -99,6 +110,15 @@ Invoke-RestMethod "https://gtec-website.onrender.com/api/predict" -Method Post `
     -ContentType 'application/json' -Body '{"message":"where is the madurai centre"}'
 ```
 
+Course recommendation (the same call the "Find My Course" wizard makes):
+
+```powershell
+$body = '{"background":"commerce","interest":"unsure","goal":"job","previous":"basic"}'
+Invoke-RestMethod "https://gtec-website.onrender.com/api/recommend" -Method Post `
+    -ContentType 'application/json' -Body $body
+# -> course.name = Tally ERP & GST Accounting
+```
+
 If both return an intent, the chatbot works — open the site and click the
 chat bubble. The badge should read **AI Model Active**.
 
@@ -123,10 +143,11 @@ placed **before** `js/buddy.js`.
 
 ```powershell
 # 1. retrain
-.\.venv\Scripts\python.exe train_lite_model.py     # free-hosting model
-.\.venv\Scripts\python.exe train_model.py          # DistilBERT (optional)
+.\.venv\Scripts\python.exe train_lite_model.py      # intent model (free hosting)
+.\.venv\Scripts\python.exe train_course_model.py    # course recommender
+.\.venv\Scripts\python.exe train_model.py           # DistilBERT (optional)
 
-# 2. upload both to the Hub
+# 2. upload all artifacts to the Hub
 .\deploy\publish.ps1 -HfUser GtecBuddy -SkipSpace
 
 # 3. restart the AI service

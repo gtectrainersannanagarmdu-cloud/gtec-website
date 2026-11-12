@@ -1,0 +1,132 @@
+{
+  "version": 1,
+  "description": "Intent -> page mapping served from the Hugging Face Hub (GtecBuddy/gtec-intent-model).",
+  "intents": {
+    "ABOUT": {
+      "title": "About G-TEC",
+      "text": "G-TEC Computer Education is an **ISO 9001:2015 certified** global training powerhouse with over **25 years of excellence**, present in 20+ countries with 1.8M+ alumni. We specialize in job-oriented IT and vocational skill development.",
+      "actionLabel": "Explore About Us 🏛️",
+      "targetUrl": "about.html",
+      "inPageAnchor": "#about"
+    },
+    "CENTRE_INFO": {
+      "title": "Madurai Anna Nagar Centre",
+      "text": "📍 **G-TEC Madurai Anna Nagar Centre**:<br>• <strong>Address:</strong> Idhayam Complex No.416, 2nd Floor, 2nd East Main Road, New LIG Colony, Anna Nagar, Madurai – 625020<br>• <strong>Phone:</strong> 9025046473<br>• <strong>Hours:</strong> Mon–Sat: 9:00 AM – 7:00 PM",
+      "actionLabel": "Open in Google Maps 🗺️",
+      "targetUrl": "https://www.google.com/maps/place/G-TEC+EDUCATION+MADURAI/@9.9212495,78.1466308,753m/data=!3m1!1e3!4m8!3m7!1s0x3b00c56fe8e817c3:0xae96267e04d67618!8m2!3d9.9212495!4d78.1492057!9m1!1b1!16s%2Fg%2F11vdjm_d14?entry=ttu",
+      "isExternal": true
+    },
+    "CONTACT": {
+      "title": "Contact & Admissions",
+      "text": "Have questions regarding admissions, batch timings, or course fees? Reach our Madurai centre at **9025046473** or submit your inquiry online.",
+      "actionLabel": "Go to Contact Form ✉️",
+      "targetUrl": "contact.html",
+      "inPageAnchor": "#contactForm"
+    },
+    "COURSES": {
+      "title": "Course Catalog",
+      "text": "G-TEC provides recognized certification diplomas across Software, Hardware & Networking, Web Development, Graphic Design, Digital Marketing, and Accounting.",
+      "actionLabel": "Browse All Courses 🎓",
+      "targetUrl": "courses.html",
+      "inPageAnchor": "#courses"
+    },
+    "COURSE_RECOMMENDATION": {
+      "title": "Find My Course",
+      "text": "Let's find your perfect course! I'll take you to our <strong>Find My Course</strong> page — answer 4 quick questions and we'll match you to the right course.",
+      "actionLabel": "Find My Course 🎯",
+      "targetUrl": "recommend.html"
+    },
+    "DIGITAL_MARKETING": {
+      "title": "Digital Marketing Master",
+      "text": "Our **Digital Marketing Master Course** covers Search Engine Optimization (SEO), Google Search & Display Ads (SEM), Social Media Marketing, Content Strategy, and Analytics.",
+      "actionLabel": "View Digital Marketing 📈",
+      "targetUrl": "courses.html?filter=marketing",
+      "categoryFilter": "marketing"
+    },
+    "GALLERY": {
+      "title": "Campus & Lab Gallery",
+      "text": "Take a virtual tour of our high-tech computer labs, modern air-conditioned classrooms, student project presentations, and award events!",
+      "actionLabel": "Explore Photo Gallery 📸",
+      "targetUrl": "gallery.html"
+    },
+    "GRAPHIC_DESIGN": {
+      "title": "Graphic & UI/UX Design",
+      "text": "Master creative software including Adobe Photoshop, Illustrator, InDesign, CorelDraw, and UI/UX design fundamentals with portfolio projects.",
+      "actionLabel": "View Graphic Design 🎨",
+      "targetUrl": "courses.html?filter=design",
+      "categoryFilter": "design"
+    },
+    "GREETING": {
+      "title": "Welcome to G-TEC",
+      "text": "Hello! 👋 I'm G-TEC Buddy, your AI guide! You can ask me to navigate anywhere on the website, find course syllabi, or get centre details.",
+      "actionLabel": "Browse Courses 🚀",
+      "targetUrl": "courses.html"
+    },
+    "GTEC_FACTS": {
+      "title": "G-TEC Highlights",
+      "text": "⭐ **Why Choose G-TEC?**<br>• **25+ Years** of International Heritage<br>• **1.8+ Million** Alumni Worldwide<br>• Present in **20+ Countries**<br>• **ISO 9001:2015 Certified** Curriculum<br>• Practical hands-on training with 100% placement support.",
+      "actionLabel": "Read More About G-TEC 🌟",
+      "targetUrl": "about.html"
+    },
+    "HARDWARE_NETWORKING": {
+      "title": "Hardware & Networking",
+      "text": "Gain hands-on skills in **PC Hardware & Maintenance**, **Cisco CCNA Prep**, and **Diploma in CCTV Installation (DCI)** in our practical networking labs.",
+      "actionLabel": "View Hardware & Networking 🔌",
+      "targetUrl": "courses.html?filter=hardware",
+      "categoryFilter": "hardware"
+    },
+    "HOME": {
+      "title": "Home Page",
+      "text": "Navigating to the G-TEC home page featuring campus video tours, certified courses, and student success reviews.",
+      "actionLabel": "Go to Home Page 🏠",
+      "targetUrl": "index.html",
+      "inPageAnchor": "#home"
+    },
+    "LEADERSHIP": {
+      "title": "Leadership & Mentors",
+      "text": "G-TEC Madurai Anna Nagar is led by certified technical directors and expert faculty committed to student mentorship and career transformation.",
+      "actionLabel": "Meet Leadership Team 👥",
+      "targetUrl": "about.html"
+    },
+    "MS_OFFICE": {
+      "title": "MS Office & Computer Basics",
+      "text": "Our **MS Office & Computer Basics (DCA)** program teaches Microsoft Word, Advanced Excel (VLOOKUP, Pivot Tables, Charts), PowerPoint, and essential digital office tools.",
+      "actionLabel": "View MS Office Course 💻",
+      "targetUrl": "courses.html?filter=software",
+      "categoryFilter": "software"
+    },
+    "PLACEMENT_SUPPORT": {
+      "title": "100% Placement Assistance",
+      "text": "🎯 **Career Support & Placements**:<br>• Dedicated placement coordinator<br>• Resume writing & LinkedIn profile optimization<br>• Mock technical interviews & soft skills training<br>• On-campus & corporate interview referrals.",
+      "actionLabel": "Contact Placement Cell 💼",
+      "targetUrl": "contact.html"
+    },
+    "TALLY": {
+      "title": "Tally Prime & Financial Accounting",
+      "text": "Master computerized accounting with **Tally Prime with GST**, E-way billing, Inventory Management, Payroll, and **SAP FICO** with live business case studies.",
+      "actionLabel": "View Tally & Finance Courses 📊",
+      "targetUrl": "courses.html?filter=finance",
+      "categoryFilter": "finance"
+    },
+    "TRAINERS": {
+      "title": "Certified Faculty & Trainers",
+      "text": "At G-TEC, all courses are conducted by certified industry professionals with extensive practical experience in software, finance, multimedia, and hardware.",
+      "actionLabel": "Learn More About Us 🏛️",
+      "targetUrl": "about.html"
+    },
+    "WEB_DEVELOPMENT": {
+      "title": "Web & Full Stack Development",
+      "text": "Become a Full Stack Web Developer! Master **HTML5, CSS3, JavaScript, Python, Django, React**, database integration, and Git portfolio deployment.",
+      "actionLabel": "View Web Dev Course 🌐",
+      "targetUrl": "courses.html?filter=web",
+      "categoryFilter": "web"
+    },
+    "AFFILIATIONS": {
+      "title": "Our Global Affiliations",
+      "text": "G-TEC is proud to be affiliated with premier global technology giants and certifying bodies including **Tally, SAP, Adobe, Cisco, Autodesk, EC-Council, Meta, Certiport, Keltron, and ABMA UK**.",
+      "actionLabel": "View Affiliations & Partners 🤝",
+      "targetUrl": "index.html#affiliations",
+      "inPageAnchor": "#affiliations"
+    }
+  }
+}

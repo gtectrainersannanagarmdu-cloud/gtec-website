@@ -1,6 +1,8 @@
 // ==========================================================================
 //   GTEC Buddy — Personalized AI Chatbot & Website Navigator
-//   Powered by trained DistilBERT Intent Classifier & Smart Navigation
+//   Intent + course predictions come from the G-TEC models on Hugging Face
+//   (GtecBuddy/gtec-intent-model). The intent -> page map is published next
+//   to the model as navigation.json; the entries below are the offline copy.
 // ==========================================================================
 
 (function () {
@@ -172,6 +174,27 @@
     }
   };
 
+  // --- Navigation map published with the model on Hugging Face ----------
+  // The intent itself is predicted by the Hub model; the page each intent
+  // opens lives in navigation.json next to that model. The INTENT_MAP above
+  // is only the offline copy used when the AI server is unreachable.
+  let navigationLoaded = false;
+  async function loadNavigation() {
+    if (navigationLoaded) return;
+    try {
+      const res = await fetch('/api/navigation', { cache: 'no-store' });
+      if (!res.ok) return;
+      const data = await res.json();
+      const map = (data && data.intents) || {};
+      Object.keys(map).forEach((key) => {
+        INTENT_MAP[key] = Object.assign({}, INTENT_MAP[key] || {}, map[key]);
+      });
+      navigationLoaded = Object.keys(map).length > 0;
+    } catch (err) {
+      // Keep the built-in map when the AI server is offline.
+    }
+  }
+
   // --- Fallback Intent Classifier (Client-Side) ---
   function clientClassifyIntent(query) {
     const q = query.toLowerCase().trim();
@@ -281,6 +304,7 @@
       this.bindEvents();
       this.checkAutoFilterOnLoad();
       this.testAiServerConnection();
+      loadNavigation();
     }
 
     initSpeechRecognition() {

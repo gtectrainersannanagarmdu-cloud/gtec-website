@@ -154,7 +154,12 @@ if (-not $SkipModel) {
     }
 
     Write-Step "Uploading model files to $ModelId"
-    if ($UseNewCli) {
+    if (-not (Test-Path $ModelDir)) {
+        # The DistilBERT folder is optional now - the lightweight lite model is
+        # the one the website actually uses. Skip instead of failing.
+        Write-Warning "ModelDir '$ModelDir' not found - skipping DistilBERT upload."
+    }
+    elseif ($UseNewCli) {
         # --exclude takes a single glob and can be repeated
         Invoke-Hf @('upload', $ModelId, $ModelDir, '--repo-type=model',
             '--exclude', 'training_args.bin',
@@ -179,6 +184,31 @@ if (-not $SkipModel) {
     }
     else {
         Write-Warning "model/gtec-intent-lite.joblib not found - run train_lite_model.py to build the free-hosting model."
+    }
+
+    # Course recommender (~6 KB). Trained by train_course_model.py; the
+    # "Find My Course" wizard calls it through /recommend.
+    if (Test-Path 'model/gtec-course-lite.joblib') {
+        Write-Step "Uploading course model (course_clf.joblib)"
+        Invoke-Hf @('upload', $ModelId, 'model/gtec-course-lite.joblib',
+            'course_clf.joblib', '--repo-type=model')
+        if (Test-Path 'model/gtec-course-lite-meta.json') {
+            Invoke-Hf @('upload', $ModelId, 'model/gtec-course-lite-meta.json',
+                'course_clf_meta.json', '--repo-type=model')
+        }
+    }
+    else {
+        Write-Warning "model/gtec-course-lite.joblib not found - run train_course_model.py to build the course recommender."
+    }
+
+    # Intent -> page mapping used by buddy.js for navigation.
+    if (Test-Path 'navigation.json') {
+        Write-Step "Uploading navigation map (navigation.json)"
+        Invoke-Hf @('upload', $ModelId, 'navigation.json',
+            'navigation.json', '--repo-type=model')
+    }
+    else {
+        Write-Warning "navigation.json not found - buddy.js will keep its built-in map."
     }
 }
 

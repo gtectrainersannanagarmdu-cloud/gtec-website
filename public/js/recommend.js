@@ -200,7 +200,7 @@
 
     const c = result.course;
     const filter = filterFor(c.category);
-    const courseUrl = filter === 'all' ? 'courses.html' : 'courses.html?filter=' + filter;
+    const courseUrl = c.url || (filter === 'all' ? 'courses.html' : 'courses.html?filter=' + filter);
     const contactParam = CONTACT_OPTION[c.name] || c.name;
 
     container.innerHTML = `
@@ -258,13 +258,38 @@
     container.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
+  // --- Model call --------------------------------------------------------
+  // The recommendation comes from the course model on the Hugging Face Hub,
+  // reached through our own /api/recommend proxy. If the AI server is asleep
+  // or offline, the submit handler falls back to recommend() below.
+  async function fetchRecommendation(answers) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 12000);
+    try {
+      const res = await fetch('/api/recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(answers),
+        signal: controller.signal
+      });
+      if (!res.ok) return null;
+      const data = await res.json();
+      if (!data || !data.course || !data.course.name) return null;
+      return data;
+    } catch (err) {
+      return null;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
   // --- Init --------------------------------------------------------------
   document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('recoForm');
     const errorBox = document.getElementById('recoError');
     if (!form) return;
 
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       const answers = {
@@ -282,8 +307,42 @@
       }
       if (errorBox) errorBox.hidden = true;
 
-      const result = recommend(answers);
-      renderResult(result);
+      const button = form.querySelector('button[type="submit"], .reco-submit');
+      const buttonHtml = button ? button.innerHTML : null;
+      if (button) {
+        button.disabled = true;
+        button.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Finding your course...';
+      }
+
+      try {
+        const data = await fetchRecommendation(answers);
+
+        if (data) {
+          const picked = answers.interest !== 'unsure';
+          // Merge the model's answer with the local catalogue entry so the
+          // card always has an image, level and duration to show.
+          const course = Object.assign({}, byName[data.course.name] || data.course, {
+            url: data.course.url
+          });
+          renderResult({
+            course: course,
+            confidence: data.confidence,
+            source: data.source,
+            isBeginner: isBeginnerProfile(answers),
+            interestMatched: picked,
+            reason: buildReason(answers, course, isBeginnerProfile(answers), picked)
+          });
+          return;
+        }
+
+        // AI server unavailable -> use the same rules the model was trained on.
+        renderResult(recommend(answers));
+      } finally {
+        if (button) {
+          button.disabled = false;
+          button.innerHTML = buttonHtml;
+        }
+      }
     });
 
     // Hide the error as soon as the user fixes a field.

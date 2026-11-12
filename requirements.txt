@@ -1,20 +1,29 @@
-﻿# G-TEC AI - Python dependencies
-# Install with: pip install -r requirements.txt
-# NOTE: this file is for local development. The Hugging Face Space uses
-#       deploy/hf-space/requirements.txt instead (CPU-only torch + gunicorn).
+﻿# ==========================================================================
+#  G-TEC AI - LIGHTWEIGHT runtime dependencies (no PyTorch)
+#
+#  Install:  python -m pip install -r requirements.txt
+#
+#  Total download is ~120 MB, of which scipy/numpy are the bulk. The running
+#  process uses ~120 MB of RAM. The actual model (0.8 MB) is downloaded from
+#  the Hugging Face Hub at startup, see MODEL_ID in .env.
+#
+#  Retraining the DistilBERT model is optional and needs extra packages:
+#      python -m pip install -r requirements-train.txt
+# ==========================================================================
 
 # Web framework
 flask==3.1.1
 flask-cors==5.0.1
 
-# ML / NLP
-torch>=2.2.0
-transformers>=4.47.0
-huggingface_hub>=0.26.0
-safetensors>=0.4.3
-datasets>=2.21.0
+# Model + inference. scikit-learn MUST match the version that produced
+# intent_clf.joblib, otherwise unpickling fails.
+scikit-learn==1.9.1
+joblib>=1.4.0
+numpy>=1.26.0
+scipy>=1.11.0
 
-# Training utilities
-scikit-learn>=1.4.0
-pandas>=2.2.0
-accelerate>=0.30.0
+# Download the model from the Hugging Face Model Hub
+huggingface_hub>=0.26.0
+
+# Lets ai_server.py read the same .env file as server.js
+python-dotenv>=1.0.0

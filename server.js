@@ -277,6 +277,52 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+// Course model: the 4 wizard answers -> recommended course
+app.post('/api/recommend', async (req, res) => {
+  try {
+    const aiResponse = await fetch(`${AI_BASE_URL}/recommend`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req.body)
+    });
+    const data = await aiResponse.json();
+    return res.status(aiResponse.status).json(data);
+  } catch (err) {
+    return res.status(503).json({
+      error: 'AI Server is currently unavailable',
+      fallback: true
+    });
+  }
+});
+
+// Course catalogue + wizard questions published with the model
+app.get('/api/courses', async (req, res) => {
+  try {
+    const aiResponse = await fetch(`${AI_BASE_URL}/courses`);
+    const data = await aiResponse.json();
+    return res.status(aiResponse.status).json(data);
+  } catch (err) {
+    return res.status(503).json({
+      error: 'AI Server is currently unavailable',
+      fallback: true
+    });
+  }
+});
+
+// Intent -> page mapping published with the model on the Hugging Face Hub
+app.get('/api/navigation', async (req, res) => {
+  try {
+    const aiResponse = await fetch(`${AI_BASE_URL}/navigation`);
+    const data = await aiResponse.json();
+    return res.status(aiResponse.status).json(data);
+  } catch (err) {
+    return res.status(503).json({
+      error: 'AI Server is currently unavailable',
+      fallback: true
+    });
+  }
+});
+
 // Serve index.html for root path
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
