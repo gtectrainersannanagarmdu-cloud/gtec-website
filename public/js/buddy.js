@@ -8,6 +8,12 @@
 (function () {
   'use strict';
 
+  // main.js may also inject this file. If the page already included it with a
+  // <script> tag, skip the second copy so listeners and API calls are not
+  // registered twice.
+  if (window.__gtecBuddyBooted) return;
+  window.__gtecBuddyBooted = true;
+
   // --- Configuration ---
   // AI server location.
   //   Local development : http://127.0.0.1:5001
